@@ -13,6 +13,7 @@ Source4:	find-lang.sh
 URL:		http://chrome.google.com/
 BuildRequires:	rpm-utils
 BuildRequires:	rpmbuild(macros) >= 1.453
+BuildRequires:	sed >= 4.0
 Requires:	browser-plugins >= 2.0
 Requires:	nspr
 Requires:	nss
@@ -64,7 +65,9 @@ gzip -d *.1.gz
 %endif
 
 %{__sed} -e 's,@localedir@,%{_libdir}/%{name},' %{SOURCE4} > find-lang.sh
-%{__sed} -i -e 's;/opt/google/chrome;%{_libdir}/%{name};' chrome/default-app-block
+%{__sed} -i 's;/opt/google/chrome;%{_libdir}/%{name};' chrome/default-app-block
+%{__sed} -i 's;/opt/google/chrome/product_logo_48.png;%{_pixmapsdir}/%{name}.png;' google-chrome.desktop
+%{__sed} -i 's;/opt/google/chrome;%{_bindir};' google-chrome.desktop
 
 %install
 rm -rf $RPM_BUILD_ROOT
