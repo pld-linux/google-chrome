@@ -1,13 +1,15 @@
+%define		buildid	33928
+%define		rel		1
 Summary:	Google Chrome
 Name:		google-chrome
 Version:	4.0.249.30
-Release:	0.1
+Release:	0.%{buildid}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/direct/%{name}-beta_current_i386.rpm
-# Source0-md5:	bf85e5d8d366fbe06606ab7bb5dadeac
+# Source0-md5:	858739adc287809386249cdf492e53f9
 Source1:	http://dl.google.com/linux/direct/%{name}-beta_current_x86_64.rpm
-# Source1-md5:	7e04f041372489e5249ccb7f9b661186
+# Source1-md5:	242f9b0bca48628544205b69230be422
 Source2:	%{name}.sh
 Source4:	find-lang.sh
 URL:		http://chrome.google.com/
@@ -45,11 +47,18 @@ sophisticated technology to make the web faster, safer, and easier.
 %prep
 %setup -qcT
 %ifarch %{ix86}
-rpm2cpio %{SOURCE0} | cpio -i -d
+SOURCE=%{S:0}
 %endif
 %ifarch %{x8664}
-rpm2cpio %{SOURCE1} | cpio -i -d
+SOURCE=%{S:1}
 %endif
+
+V=$(rpm -qp --qf '%{V}' $SOURCE)
+R=$(rpm -qp --qf '%{R}' $SOURCE)
+if [ version:$V != version:%{version} -o buildid:$R != buildid:%{buildid} ]; then
+	exit 1
+fi
+rpm2cpio $SOURCE | cpio -i -d
 
 mv opt/google/chrome .
 mv usr/share/man/man1/* .
