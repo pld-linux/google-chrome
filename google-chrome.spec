@@ -12,6 +12,7 @@ Source1:	http://dl.google.com/linux/direct/%{name}-beta_current_x86_64.rpm
 # Source1-md5:	242f9b0bca48628544205b69230be422
 Source2:	%{name}.sh
 Source4:	find-lang.sh
+Patch0:	chrome-desktop.patch
 URL:		http://chrome.google.com/
 BuildRequires:	rpm-utils
 BuildRequires:	rpmbuild(macros) >= 1.453
@@ -73,9 +74,11 @@ chmod a+x chrome/lib*.so*
 gzip -d *.1.gz
 %endif
 
+%patch0 -p1
+
 %{__sed} -e 's,@localedir@,%{_libdir}/%{name},' %{SOURCE4} > find-lang.sh
 %{__sed} -i 's;/opt/google/chrome/google-chrome;%{_libdir}/%{name}/chrome;' chrome/default-app-block
-%{__sed} -i 's;/opt/google/chrome/product_logo_48.png;%{_pixmapsdir}/%{name}.png;' google-chrome.desktop
+%{__sed} -i 's;/opt/google/chrome/product_logo_48.png;%{name}.png;' google-chrome.desktop
 %{__sed} -i 's;/opt/google/chrome;%{_bindir};' google-chrome.desktop
 
 %install
