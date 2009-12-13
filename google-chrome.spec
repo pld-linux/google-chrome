@@ -74,7 +74,7 @@ gzip -d *.1.gz
 %endif
 
 %{__sed} -e 's,@localedir@,%{_libdir}/%{name},' %{SOURCE4} > find-lang.sh
-%{__sed} -i 's;/opt/google/chrome;%{_libdir}/%{name};' chrome/default-app-block
+%{__sed} -i 's;/opt/google/chrome/google-chrome;%{_libdir}/%{name}/chrome;' chrome/default-app-block
 %{__sed} -i 's;/opt/google/chrome/product_logo_48.png;%{_pixmapsdir}/%{name}.png;' google-chrome.desktop
 %{__sed} -i 's;/opt/google/chrome;%{_bindir};' google-chrome.desktop
 
