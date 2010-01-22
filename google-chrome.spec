@@ -1,15 +1,15 @@
-%define		buildid	33928
+%define		buildid	34537
 %define		rel		1
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	4.0.249.30
+Version:	4.0.249.43
 Release:	0.%{buildid}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/direct/%{name}-beta_current_i386.rpm
-# Source0-md5:	858739adc287809386249cdf492e53f9
+# Source0-md5:	23e14073cec525fa7d1efeb26c0c0e59
 Source1:	http://dl.google.com/linux/direct/%{name}-beta_current_x86_64.rpm
-# Source1-md5:	242f9b0bca48628544205b69230be422
+# Source1-md5:	cfd43bb97287bf02f8fe611ad088fa74
 Source2:	%{name}.sh
 Source4:	find-lang.sh
 Patch0:	chrome-desktop.patch
