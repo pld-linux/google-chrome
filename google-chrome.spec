@@ -6,13 +6,13 @@ Version:	4.0.249.43
 Release:	0.%{buildid}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
-Source0:	http://dl.google.com/linux/direct/%{name}-beta_current_i386.rpm
-# Source0-md5:	23e14073cec525fa7d1efeb26c0c0e59
-Source1:	http://dl.google.com/linux/direct/%{name}-beta_current_x86_64.rpm
-# Source1-md5:	cfd43bb97287bf02f8fe611ad088fa74
+Source0:	http://dl.google.com/linux/rpm/stable/i386/%{name}-beta-%{version}-%{buildid}.i386.rpm
+# Source0-md5:	e090d577a7b12181290dba715ec9f80b
+Source1:	http://dl.google.com/linux/rpm/stable/x86_64/%{name}-beta-%{version}-%{buildid}.x86_64.rpm
+# Source1-md5:	ae8d79ad89e6d9d9d1fcbc4d482badfd
 Source2:	%{name}.sh
 Source4:	find-lang.sh
-Patch0:	chrome-desktop.patch
+Patch0:		chrome-desktop.patch
 URL:		http://chrome.google.com/
 BuildRequires:	rpm-utils
 BuildRequires:	rpmbuild(macros) >= 1.453
