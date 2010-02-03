@@ -1,3 +1,7 @@
+# TODO
+# - install default-apps/google-chrome.xml to
+#   /usr/share/gnome-control-center/default-apps, somehow, try avoid pulling
+#   whole gnome desktop (trigger or include in gnome-control-center.spec)
 %define		buildid	34537
 %define		rel		1
 Summary:	Google Chrome
@@ -64,6 +68,7 @@ rpm2cpio $SOURCE | cpio -i -d
 mv opt/google/chrome .
 mv usr/share/man/man1/* .
 mv usr/share/gnome-control-center/default-apps .
+mv chrome/default-app-block .
 mv chrome/product_logo_*.{png,xpm} .
 mv chrome/google-chrome.desktop .
 mv chrome/google-chrome .
@@ -77,7 +82,8 @@ gzip -d *.1.gz
 %patch0 -p1
 
 %{__sed} -e 's,@localedir@,%{_libdir}/%{name},' %{SOURCE4} > find-lang.sh
-%{__sed} -i 's;/opt/google/chrome/google-chrome;%{_libdir}/%{name}/chrome;' chrome/default-app-block
+%{__sed} -i 's;/opt/google/chrome/google-chrome;%{_libdir}/%{name}/chrome;' default-app-block
+%{__sed} -i 's;/opt/google/chrome/google-chrome;%{_libdir}/%{name}/chrome;' default-apps/google-chrome.xml
 %{__sed} -i 's;/opt/google/chrome/product_logo_48.png;%{name}.png;' google-chrome.desktop
 %{__sed} -i 's;/opt/google/chrome;%{_bindir};' google-chrome.desktop
 
@@ -131,7 +137,6 @@ fi
 %{_desktopdir}/*.desktop
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/chrome.pak
-%{_libdir}/%{name}/default-app-block
 %dir %{_libdir}/%{name}/locales
 %dir %{_libdir}/%{name}/plugins
 %{_libdir}/%{name}/resources
