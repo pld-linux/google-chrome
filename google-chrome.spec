@@ -3,7 +3,7 @@
 Summary:	Google Chrome
 Name:		google-chrome
 Version:	4.0.249.43
-Release:	0.%{buildid}.%{rel}
+Release:	%{buildid}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/rpm/stable/i386/%{name}-beta-%{version}-%{buildid}.i386.rpm
