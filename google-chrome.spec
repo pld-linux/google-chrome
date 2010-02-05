@@ -2,18 +2,18 @@
 # - install default-apps/google-chrome.xml to
 #   /usr/share/gnome-control-center/default-apps, somehow, try avoid pulling
 #   whole gnome desktop (trigger or include in gnome-control-center.spec)
-%define		buildid	34537
+%define		buildid	37950
 %define		rel		1
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	4.0.249.43
+Version:	5.0.307.5
 Release:	%{buildid}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
-Source0:	http://dl.google.com/linux/rpm/stable/i386/%{name}-beta-%{version}-%{buildid}.i386.rpm
-# Source0-md5:	e090d577a7b12181290dba715ec9f80b
-Source1:	http://dl.google.com/linux/rpm/stable/x86_64/%{name}-beta-%{version}-%{buildid}.x86_64.rpm
-# Source1-md5:	ae8d79ad89e6d9d9d1fcbc4d482badfd
+Source0:	http://dl.google.com/linux/rpm/stable/i386/%{name}-unstable-%{version}-%{buildid}.i386.rpm
+# Source0-md5:	07d42613f8eba27cf99b3b4e99c60ed4
+Source1:	http://dl.google.com/linux/rpm/stable/x86_64/%{name}-unstable-%{version}-%{buildid}.x86_64.rpm
+# Source1-md5:	f698f0c08c3e2ec29b58c143e3621f79
 Source2:	%{name}.sh
 Source4:	find-lang.sh
 Patch0:		chrome-desktop.patch
