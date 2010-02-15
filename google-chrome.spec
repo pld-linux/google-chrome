@@ -49,6 +49,13 @@ The web browser from Google
 Google Chrome is a browser that combines a minimal design with
 sophisticated technology to make the web faster, safer, and easier.
 
+%description -l hu.UTF-8
+Webböngésző a Google-től.
+
+Google Chrome egy böngésző, amely a minimalista külsőt házasítja össze
+a kifinomult technológiával, hogy a webböngészés gyorsabb,
+biztonságosabb és könnyebb legyen.
+
 %prep
 %setup -qcT
 %ifarch %{ix86}
