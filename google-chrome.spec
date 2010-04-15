@@ -1,15 +1,17 @@
-%define		buildid	34537
+# NOTE
+# - to look for new version, use update-source.sh script
+%define		svnrev	43360
 %define		rel		1
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	4.0.249.43
-Release:	%{buildid}.%{rel}
+Version:	5.0.342.9
+Release:	%{svnrev}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
-Source0:	http://dl.google.com/linux/rpm/stable/i386/%{name}-beta-%{version}-%{buildid}.i386.rpm
-# Source0-md5:	e090d577a7b12181290dba715ec9f80b
-Source1:	http://dl.google.com/linux/rpm/stable/x86_64/%{name}-beta-%{version}-%{buildid}.x86_64.rpm
-# Source1-md5:	ae8d79ad89e6d9d9d1fcbc4d482badfd
+Source0:	http://dl.google.com/linux/rpm/stable/i386/%{name}-beta-%{version}-%{svnrev}.i386.rpm
+# Source0-md5:	d7aaec68705d163e3ba475254aec3043
+Source1:	http://dl.google.com/linux/rpm/stable/x86_64/%{name}-beta-%{version}-%{svnrev}.x86_64.rpm
+# Source1-md5:	eef4dfe148d2529f3ba179055ceae374
 Source2:	%{name}.sh
 Source4:	find-lang.sh
 Patch0:		chrome-desktop.patch
@@ -61,9 +63,9 @@ SOURCE=%{S:0}
 SOURCE=%{S:1}
 %endif
 
-V=$(rpm -qp --qf '%{V}' $SOURCE)
-R=$(rpm -qp --qf '%{R}' $SOURCE)
-if [ version:$V != version:%{version} -o buildid:$R != buildid:%{buildid} ]; then
+V=$(rpm -qp --nodigest --nosignature --qf '%{V}' $SOURCE)
+R=$(rpm -qp --nodigest --nosignature --qf '%{R}' $SOURCE)
+if [ version:$V != version:%{version} -o svnrev:$R != svnrev:%{svnrev} ]; then
 	exit 1
 fi
 rpm2cpio $SOURCE | cpio -i -d
