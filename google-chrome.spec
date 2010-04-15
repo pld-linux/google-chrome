@@ -102,7 +102,7 @@ install -p %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}/%{name}
 cp -a chrome/* $RPM_BUILD_ROOT%{_libdir}/%{name}
 cp -a google-chrome.1 $RPM_BUILD_ROOT%{_mandir}/man1
 # for google-chrome --help
-echo ".so google-chrome" > $RPM_BUILD_ROOT%{_mandir}/man1/chrome.1
+echo ".so google-chrome.1" > $RPM_BUILD_ROOT%{_mandir}/man1/chrome.1
 cp -a product_logo_48.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
 cp -a google-chrome.desktop $RPM_BUILD_ROOT%{_desktopdir}
 
