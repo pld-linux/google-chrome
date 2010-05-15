@@ -1,17 +1,17 @@
 # NOTE
 # - to look for new version, use update-source.sh script
-%define		svnrev	43360
+%define		svnrev	46659
 %define		rel		1
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	5.0.342.9
+Version:	5.0.375.38
 Release:	%{svnrev}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/rpm/stable/i386/%{name}-beta-%{version}-%{svnrev}.i386.rpm
-# Source0-md5:	d7aaec68705d163e3ba475254aec3043
+# Source0-md5:	2b6fa81dde3702f7b28f4aecec89b8df
 Source1:	http://dl.google.com/linux/rpm/stable/x86_64/%{name}-beta-%{version}-%{svnrev}.x86_64.rpm
-# Source1-md5:	eef4dfe148d2529f3ba179055ceae374
+# Source1-md5:	579f153d2d46350b4d648a12c0bf476c
 Source2:	%{name}.sh
 Source4:	find-lang.sh
 Patch0:		chrome-desktop.patch
