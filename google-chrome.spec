@@ -20,7 +20,6 @@ BuildRequires:	rpm-utils
 BuildRequires:	rpmbuild(macros) >= 1.453
 BuildRequires:	sed >= 4.0
 Requires:	browser-plugins >= 2.0
-Requires:	libjpeg6
 Requires:	nspr
 Requires:	nss
 Requires:	xdg-utils
