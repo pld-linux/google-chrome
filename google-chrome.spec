@@ -1,5 +1,10 @@
 # NOTE
 # - to look for new version, use update-source.sh script
+#
+%if "%{pld_release}" == "th"
+die: "Blocked Th build because th doesn't provide old libraries required by this app."
+%endif
+#
 %define		svnrev	48679
 %define		rel		1
 Summary:	Google Chrome
