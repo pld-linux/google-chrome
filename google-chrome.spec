@@ -1,17 +1,17 @@
 # NOTE
 # - to look for new version, use update-source.sh script
-%define		svnrev	47796
+%define		svnrev	48679
 %define		rel		1
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	5.0.375.55
+Version:	5.0.375.70
 Release:	%{svnrev}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
-Source0:	http://dl.google.com/linux/rpm/stable/i386/%{name}-beta-%{version}-%{svnrev}.i386.rpm
-# Source0-md5:	8131442569d3554b4d72a6dddbd3c48b
-Source1:	http://dl.google.com/linux/rpm/stable/x86_64/%{name}-beta-%{version}-%{svnrev}.x86_64.rpm
-# Source1-md5:	089b2c8b216237e6e20fe4f0af25aa29
+Source0:	http://dl.google.com/linux/rpm/stable/i386/%{name}-stable-%{version}-%{svnrev}.i386.rpm
+# Source0-md5:	b1a7760a774e89a47ad41eb8dfa26106
+Source1:	http://dl.google.com/linux/rpm/stable/x86_64/%{name}-stable-%{version}-%{svnrev}.x86_64.rpm
+# Source1-md5:	b5ba8a31235cb3c20286bc116052de0f
 Source2:	%{name}.sh
 Source4:	find-lang.sh
 Patch0:		chrome-desktop.patch
@@ -20,6 +20,7 @@ BuildRequires:	rpm-utils
 BuildRequires:	rpmbuild(macros) >= 1.453
 BuildRequires:	sed >= 4.0
 Requires:	browser-plugins >= 2.0
+Requires:	libjpeg6
 Requires:	nspr
 Requires:	nss
 Requires:	xdg-utils
