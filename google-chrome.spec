@@ -21,6 +21,7 @@ Source2:	%{name}.sh
 Source4:	find-lang.sh
 Patch0:		chrome-desktop.patch
 URL:		http://chrome.google.com/
+BuildRequires:	libjpeg6-devel
 BuildRequires:	rpm-utils
 BuildRequires:	rpmbuild(macros) >= 1.453
 BuildRequires:	sed >= 4.0
