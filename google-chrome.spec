@@ -4,7 +4,7 @@
 %if "%{pld_release}" == "th"
 die: "Blocked Th build because th doesn't provide old libraries required by this app."
 %endif
-#
+
 %define		svnrev	48679
 %define		rel		1
 Summary:	Google Chrome
@@ -21,7 +21,6 @@ Source2:	%{name}.sh
 Source4:	find-lang.sh
 Patch0:		chrome-desktop.patch
 URL:		http://chrome.google.com/
-BuildRequires:	libjpeg6-devel
 BuildRequires:	rpm-utils
 BuildRequires:	rpmbuild(macros) >= 1.453
 BuildRequires:	sed >= 4.0
