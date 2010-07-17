@@ -5,11 +5,11 @@
 die: "Blocked Th build because th doesn't provide old libraries required by this app."
 %endif
 
-%define		svnrev	48679
+%define		svnrev	51029
 %define		rel		1
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	5.0.375.70
+Version:	5.0.375.99
 Release:	%{svnrev}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
