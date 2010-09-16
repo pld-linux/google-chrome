@@ -1,22 +1,18 @@
 # NOTE
 # - to look for new version, use update-source.sh script
-#
-%if "%{pld_release}" == "th"
-die: "Blocked Th build because th doesn't provide old libraries required by this app."
-%endif
 
-%define		svnrev	51029
+%define		svnrev	59126
 %define		rel		1
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	5.0.375.99
+Version:	6.0.472.59
 Release:	%{svnrev}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/rpm/stable/i386/%{name}-stable-%{version}-%{svnrev}.i386.rpm
-# Source0-md5:	b1a7760a774e89a47ad41eb8dfa26106
+# Source0-md5:	ac7d36782b0e13319c5770cd791a3994
 Source1:	http://dl.google.com/linux/rpm/stable/x86_64/%{name}-stable-%{version}-%{svnrev}.x86_64.rpm
-# Source1-md5:	b5ba8a31235cb3c20286bc116052de0f
+# Source1-md5:	ac34c8dd58a79fba45ffd13435933c2b
 Source2:	%{name}.sh
 Source4:	find-lang.sh
 Patch0:		chrome-desktop.patch
@@ -148,6 +144,7 @@ fi
 %{_desktopdir}/*.desktop
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/chrome.pak
+%{_libdir}/%{name}/resources.pak
 %dir %{_libdir}/%{name}/locales
 %dir %{_libdir}/%{name}/plugins
 %{_libdir}/%{name}/resources
@@ -156,6 +153,7 @@ fi
 # These unique permissions are intentional and necessary for the sandboxing
 %attr(4555,root,root) %{_libdir}/%{name}/chrome-sandbox
 
+%attr(755,root,root) %{_libdir}/%{name}/libpdf.so
 # ffmpeg libs
 %attr(755,root,root) %{_libdir}/%{name}/libffmpegsumo.so
 
