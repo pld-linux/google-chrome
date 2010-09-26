@@ -154,6 +154,13 @@ fi
 %attr(4555,root,root) %{_libdir}/%{name}/chrome-sandbox
 
 %attr(755,root,root) %{_libdir}/%{name}/libpdf.so
+
+%ifarch %{ix86}
+# flash player
+%{_libdir}/%{name}/plugin.vch
+%attr(755,root,root) %{_libdir}/%{name}/libgcflashplayer.so
+%endif
+
 # ffmpeg libs
 %attr(755,root,root) %{_libdir}/%{name}/libffmpegsumo.so
 
