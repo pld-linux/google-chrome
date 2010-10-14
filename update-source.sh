@@ -3,7 +3,7 @@ set -e
 
 echo -n "Fetching latest version... "
 t=$(mktemp)
-curl --silent http://dl.google.com/linux/direct/google-chrome-beta_current_x86_64.rpm -o $t
+curl --silent -o $t https://dl-ssl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
 ver=$(rpm -qp --nodigest --nosignature --qf '%{V}' $t)
 rev=$(rpm -qp --nodigest --nosignature --qf '%{R}' $t)
 rm -f $t
