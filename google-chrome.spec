@@ -1,18 +1,18 @@
 # NOTE
 # - to look for new version, use update-source.sh script
 
-%define		svnrev	59945
+%define		svnrev	64615
 %define		rel		1
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	6.0.472.63
+Version:	7.0.517.44
 Release:	%{svnrev}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/rpm/stable/i386/%{name}-stable-%{version}-%{svnrev}.i386.rpm
-# Source0-md5:	f23afc56fb188737087c3c46d5a9437f
+# Source0-md5:	97c1267255f6ec6f320c1f830d9c5907
 Source1:	http://dl.google.com/linux/rpm/stable/x86_64/%{name}-stable-%{version}-%{svnrev}.x86_64.rpm
-# Source1-md5:	02fd6f211135b142edd4f82777706356
+# Source1-md5:	4457802e6e7111ce25cbd1c599854ad7
 Source2:	%{name}.sh
 Source4:	find-lang.sh
 Patch0:		chrome-desktop.patch
