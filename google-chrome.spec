@@ -23,7 +23,7 @@ BuildRequires:	sed >= 4.0
 Requires:	browser-plugins >= 2.0
 Requires:	nspr
 Requires:	nss
-Requires:	xdg-utils
+Requires:	xdg-utils >= 1.0.2-4
 Provides:	wwwbrowser
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -82,6 +82,10 @@ chmod a+x chrome/lib*.so*
 
 # included in gnome-control-center-2.28.1-3
 rm default-app-block default-apps/google-chrome.xml
+
+# xdg-utils snapshot required
+rm chrome/xdg-settings
+rm chrome/xdg-mime
 
 %ifarch %{x8664}
 # go figure, 32bit one doesn't have it compressed
@@ -172,6 +176,3 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/libnssutil3.so.1d
 %attr(755,root,root) %{_libdir}/%{name}/libsmime3.so.1d
 %attr(755,root,root) %{_libdir}/%{name}/libssl3.so.1d
-
-# bundle this copy until xdg-utils will have this itself
-%attr(755,root,root) %{_libdir}/%{name}/xdg-settings
