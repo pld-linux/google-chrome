@@ -1,18 +1,19 @@
 # NOTE
 # - to look for new version, use update-source.sh script
 
-%define		svnrev	64615
+%define		svnrev	65749
+%define		state	beta
 %define		rel		1
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	7.0.517.44
+Version:	8.0.552.200
 Release:	%{svnrev}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
-Source0:	http://dl.google.com/linux/rpm/stable/i386/%{name}-stable-%{version}-%{svnrev}.i386.rpm
-# Source0-md5:	97c1267255f6ec6f320c1f830d9c5907
-Source1:	http://dl.google.com/linux/rpm/stable/x86_64/%{name}-stable-%{version}-%{svnrev}.x86_64.rpm
-# Source1-md5:	4457802e6e7111ce25cbd1c599854ad7
+Source0:	http://dl.google.com/linux/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
+# Source0-md5:	4f5b7f4285efecf30bb6709eb4f8b17a
+Source1:	http://dl.google.com/linux/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
+# Source1-md5:	271fa0c07655c88907a89ec43fc64acf
 Source2:	%{name}.sh
 Source4:	find-lang.sh
 Patch0:		chrome-desktop.patch
@@ -87,10 +88,7 @@ rm default-app-block default-apps/google-chrome.xml
 rm chrome/xdg-settings
 rm chrome/xdg-mime
 
-%ifarch %{x8664}
-# go figure, 32bit one doesn't have it compressed
-gzip -d *.1.gz
-%endif
+[ -f *.1.gz ] && gzip -d *.1.gz
 
 %patch0 -p1
 
