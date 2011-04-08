@@ -1,19 +1,19 @@
 # NOTE
 # - to look for new version, use update-source.sh script
 
-%define		svnrev	65749
-%define		state	beta
+%define		svnrev	75357
+%define		state	stable
 %define		rel		1
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	8.0.552.200
+Version:	9.0.597.107
 Release:	%{svnrev}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
-Source0:	http://dl.google.com/linux/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
-# Source0-md5:	4f5b7f4285efecf30bb6709eb4f8b17a
-Source1:	http://dl.google.com/linux/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
-# Source1-md5:	271fa0c07655c88907a89ec43fc64acf
+Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
+# Source0-md5:	429d45fcc7c63bcc8c0f9af5c8edbf02
+Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
+# Source1-md5:	2b4be5889a67e89ea0c050d2ab3709de
 Source2:	%{name}.sh
 Source4:	find-lang.sh
 Patch0:		chrome-desktop.patch
@@ -37,9 +37,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		nss_caps	libfreebl3.so libnss3.so libnssckbi.so libsmime3.so ibsoftokn3.so libssl3.so libnssutil3.so
 %define		nspr_caps	libnspr4.so libplc4.so libplds4.so
 %define		ffmpeg_caps	libffmpegsumo.so
+%define		jpeg_caps	libpng12.so.0(PNG12_0)
 
 # list of script capabilities (regexps) not to be used in Provides
-%define		_noautoprov		%{nss_caps} %{nspr_caps} %{ffmpeg_caps}
+%define		_noautoprov		%{nss_caps} %{nspr_caps} %{ffmpeg_caps} %{jpeg_caps}
 # do not require them either
 %define		_noautoreq		%{_noautoprov}
 

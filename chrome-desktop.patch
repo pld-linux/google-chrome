@@ -1,8 +1,8 @@
---- google-chrome-5.0.342.9/google-chrome.desktop~	2010-04-15 12:26:49.000000000 +0300
-+++ google-chrome-5.0.342.9/google-chrome.desktop	2010-04-15 12:27:09.332078235 +0300
+--- google-chrome-9.0.597.107/google-chrome.desktop~	2011-03-06 13:19:44.000000000 +0200
++++ google-chrome-9.0.597.107/google-chrome.desktop	2011-03-06 13:20:47.239498667 +0200
 @@ -110,4 +110,4 @@
  Icon=google-chrome
  Type=Application
  Categories=Network;WebBrowser;
--MimeType=text/html;text/xml;application/xhtml_xml;
-+MimeType=text/html;text/xml;application/xhtml+xml;
+-MimeType=text/html;text/xml;application/xhtml_xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
++MimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
