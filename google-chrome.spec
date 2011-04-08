@@ -1,19 +1,19 @@
 # NOTE
 # - to look for new version, use update-source.sh script
 
-%define		svnrev	75357
+%define		svnrev	79063
 %define		state	stable
 %define		rel		1
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	9.0.597.107
+Version:	10.0.648.204
 Release:	%{svnrev}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
-# Source0-md5:	429d45fcc7c63bcc8c0f9af5c8edbf02
+# Source0-md5:	9d25a893e686a13e0f272cf13886f9cd
 Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
-# Source1-md5:	2b4be5889a67e89ea0c050d2ab3709de
+# Source1-md5:	9fcd3267fcda3be5551ffecaf555589a
 Source2:	%{name}.sh
 Source4:	find-lang.sh
 Patch0:		chrome-desktop.patch
@@ -155,6 +155,9 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/chrome
 # These unique permissions are intentional and necessary for the sandboxing
 %attr(4555,root,root) %{_libdir}/%{name}/chrome-sandbox
+
+# Native Client plugin, to use launch with --enable-nacl
+%attr(755,root,root) %{_libdir}/%{name}/libppGoogleNaClPluginChrome.so
 
 %attr(755,root,root) %{_libdir}/%{name}/libpdf.so
 
