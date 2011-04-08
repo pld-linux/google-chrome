@@ -1,12 +1,21 @@
 #!/bin/sh
+arch=x86_64
+sourceurl=http://dl.google.com/linux/chrome/rpm/stable/$arch/
 set -e
 
 echo -n "Fetching latest version... "
 t=$(mktemp)
-curl --silent -o $t https://dl-ssl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-ver=$(rpm -qp --nodigest --nosignature --qf '%{V}' $t)
-rev=$(rpm -qp --nodigest --nosignature --qf '%{R}' $t)
+
+poldek -q --st=metadata --source "$sourceurl" --update
+poldek -q --skip-installed --st=metadata --source "$sourceurl" --cmd 'ls google-chrome-stable' > $t
+
+set -- $(sed -re "s,^.+-([^-]+)-([^-]+).$arch$,\1 \2," $t)
+
 rm -f $t
+
+ver=$1
+rev=$2
+
 echo "$ver-$rev"
 
 specfile=google-chrome.spec
