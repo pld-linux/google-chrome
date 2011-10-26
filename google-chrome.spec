@@ -1,19 +1,19 @@
 # NOTE
 # - to look and update to new version, use update-source.sh script
 
-%define		svnrev	90304
+%define		svnrev	107270
 %define		state	stable
 %define		rel		1
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	12.0.742.112
+Version:	15.0.874.106
 Release:	%{svnrev}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
-# Source0-md5:	7939a9e67fe29b7001de26691cdab382
+# Source0-md5:	b2d45d60abe54821e9c31c0367ef5f56
 Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
-# Source1-md5:	22dcf5756b88d01d63ae3a557faa9b07
+# Source1-md5:	241a15cf13adb75f56359ef467e6a99b
 Source2:	%{name}.sh
 Source4:	find-lang.sh
 Patch0:		chrome-desktop.patch
@@ -38,9 +38,11 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		nspr_caps	libnspr4.so libplc4.so libplds4.so
 %define		ffmpeg_caps	libffmpegsumo.so
 %define		jpeg_caps	libpng12.so.0(PNG12_0)
+%define		flash_caps	libflashplayer.so
+%define		chrome_caps	libpdf.so libppGoogleNaClPluginChrome.so
 
 # list of script capabilities (regexps) not to be used in Provides
-%define		_noautoprov		%{nss_caps} %{nspr_caps} %{ffmpeg_caps} %{jpeg_caps}
+%define		_noautoprov		%{nss_caps} %{nspr_caps} %{ffmpeg_caps} %{jpeg_caps} %{flash_caps} %{chrome_caps}
 # do not require them either
 %define		_noautoreq		%{_noautoprov}
 
@@ -165,6 +167,11 @@ fi
 %{_libdir}/%{name}/plugin.vch
 %attr(755,root,root) %{_libdir}/%{name}/libgcflashplayer.so
 %endif
+
+# nacl
+%attr(755,root,root) %{_libdir}/%{name}/nacl_helper
+%attr(755,root,root) %{_libdir}/%{name}/nacl_helper_bootstrap
+%attr(755,root,root) %{_libdir}/%{name}/nacl_irt_x86_*.nexe
 
 # ffmpeg libs
 %attr(755,root,root) %{_libdir}/%{name}/libffmpegsumo.so
