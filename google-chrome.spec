@@ -1,19 +1,19 @@
 # NOTE
 # - to look and update to new version, use update-source.sh script
 
-%define		svnrev	107270
+%define		svnrev	116452
 %define		state	stable
 %define		rel		1
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	15.0.874.106
+Version:	16.0.912.75
 Release:	%{svnrev}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
-# Source0-md5:	b2d45d60abe54821e9c31c0367ef5f56
+# Source0-md5:	ed08cb2891058db3a62a5b2399aa7fea
 Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
-# Source1-md5:	241a15cf13adb75f56359ef467e6a99b
+# Source1-md5:	1baa28b426b607b95f7a9629d9a62887
 Source2:	%{name}.sh
 Source4:	find-lang.sh
 Patch0:		chrome-desktop.patch
@@ -152,6 +152,7 @@ fi
 %{_libdir}/%{name}/resources.pak
 %dir %{_libdir}/%{name}/locales
 %dir %{_libdir}/%{name}/plugins
+%{_libdir}/%{name}/default_apps
 %{_libdir}/%{name}/themes
 %attr(755,root,root) %{_libdir}/%{name}/chrome
 # These unique permissions are intentional and necessary for the sandboxing
