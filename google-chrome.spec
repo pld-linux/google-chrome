@@ -22,6 +22,7 @@ BuildRequires:	rpm-utils
 BuildRequires:	rpmbuild(macros) >= 1.453
 BuildRequires:	sed >= 4.0
 Requires:	browser-plugins >= 2.0
+Requires:	hicolor-icon-theme
 Requires:	xdg-utils >= 1.0.2-4
 Provides:	wwwbrowser
 ExclusiveArch:	%{ix86} %{x8664}
@@ -97,7 +98,7 @@ rm chrome/xdg-mime
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/plugins,%{_mandir}/man1,%{_pixmapsdir},%{_desktopdir},%{_libdir}/%{name}/themes}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/plugins,%{_mandir}/man1,%{_desktopdir},%{_libdir}/%{name}/themes}
 
 install -p %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}/%{name}
 %{__sed} -i -e 's,@libdir@,%{_libdir}/%{name},' $RPM_BUILD_ROOT%{_bindir}/%{name}
@@ -105,8 +106,15 @@ cp -a chrome/* $RPM_BUILD_ROOT%{_libdir}/%{name}
 cp -p google-chrome.1 $RPM_BUILD_ROOT%{_mandir}/man1
 # for google-chrome --help
 echo ".so google-chrome.1" > $RPM_BUILD_ROOT%{_mandir}/man1/chrome.1
-cp -a product_logo_48.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
-cp -a google-chrome.desktop $RPM_BUILD_ROOT%{_desktopdir}
+cp -p google-chrome.desktop $RPM_BUILD_ROOT%{_desktopdir}
+
+for icon in product_logo_*.png; do
+	size=${icon##product_logo_}
+	size=${size%.png}
+
+	install -d $RPM_BUILD_ROOT%{_iconsdir}/hicolor/${size}x${size}/apps
+	cp -p $icon $RPM_BUILD_ROOT%{_iconsdir}/hicolor/${size}x${size}/apps/%{name}.png
+done
 
 %browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/plugins
 
@@ -117,10 +125,12 @@ cp -a google-chrome.desktop $RPM_BUILD_ROOT%{_desktopdir}
 rm -rf $RPM_BUILD_ROOT
 
 %post
+%update_icon_cache hicolor
 %update_browser_plugins
 
 %postun
 if [ "$1" = 0 ]; then
+	%update_icon_cache hicolor
 	%update_browser_plugins
 fi
 
@@ -132,8 +142,9 @@ fi
 
 %attr(755,root,root) %{_bindir}/%{name}
 %{_mandir}/man1/*.1*
-%{_pixmapsdir}/%{name}.png
 %{_desktopdir}/*.desktop
+%{_iconsdir}/hicolor/*/apps/%{name}.png
+
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/chrome.pak
 %{_libdir}/%{name}/resources.pak
