@@ -22,8 +22,6 @@ BuildRequires:	rpm-utils
 BuildRequires:	rpmbuild(macros) >= 1.453
 BuildRequires:	sed >= 4.0
 Requires:	browser-plugins >= 2.0
-Requires:	nspr
-Requires:	nss
 Requires:	xdg-utils >= 1.0.2-4
 Provides:	wwwbrowser
 ExclusiveArch:	%{ix86} %{x8664}
@@ -34,15 +32,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_enable_debug_packages	0
 %define		no_install_post_strip	1
 
-%define		nss_caps	libfreebl3.so libnss3.so libnssckbi.so libsmime3.so ibsoftokn3.so libssl3.so libnssutil3.so
-%define		nspr_caps	libnspr4.so libplc4.so libplds4.so
 %define		ffmpeg_caps	libffmpegsumo.so
 %define		jpeg_caps	libpng12.so.0(PNG12_0)
 %define		flash_caps	libflashplayer.so
 %define		chrome_caps	libpdf.so libppGoogleNaClPluginChrome.so
 
 # list of script capabilities (regexps) not to be used in Provides
-%define		_noautoprov		%{nss_caps} %{nspr_caps} %{ffmpeg_caps} %{jpeg_caps} %{flash_caps} %{chrome_caps}
+%define		_noautoprov		%{ffmpeg_caps} %{jpeg_caps} %{flash_caps} %{chrome_caps}
 # do not require them either
 %define		_noautoreq		%{_noautoprov}
 
@@ -106,22 +102,13 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/plugins,%{_mandir}/man1
 install -p %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}/%{name}
 %{__sed} -i -e 's,@libdir@,%{_libdir}/%{name},' $RPM_BUILD_ROOT%{_bindir}/%{name}
 cp -a chrome/* $RPM_BUILD_ROOT%{_libdir}/%{name}
-cp -a google-chrome.1 $RPM_BUILD_ROOT%{_mandir}/man1
+cp -p google-chrome.1 $RPM_BUILD_ROOT%{_mandir}/man1
 # for google-chrome --help
 echo ".so google-chrome.1" > $RPM_BUILD_ROOT%{_mandir}/man1/chrome.1
 cp -a product_logo_48.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
 cp -a google-chrome.desktop $RPM_BUILD_ROOT%{_desktopdir}
 
 %browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/plugins
-
-# nspr symlinks
-for a in libnspr4.so libplc4.so libplds4.so; do
-	ln -s %{_libdir}/$a $RPM_BUILD_ROOT%{_libdir}/%{name}/$a.0d
-done
-# nss symlinks
-for a in libnss3.so libnssutil3.so libsmime3.so libssl3.so; do
-	ln -s %{_libdir}/$a $RPM_BUILD_ROOT%{_libdir}/%{name}/$a.1d
-done
 
 # find locales
 %find_lang %{name}.lang
@@ -176,12 +163,3 @@ fi
 
 # ffmpeg libs
 %attr(755,root,root) %{_libdir}/%{name}/libffmpegsumo.so
-
-# nspr/nss symlinks
-%attr(755,root,root) %{_libdir}/%{name}/libnspr4.so.0d
-%attr(755,root,root) %{_libdir}/%{name}/libplc4.so.0d
-%attr(755,root,root) %{_libdir}/%{name}/libplds4.so.0d
-%attr(755,root,root) %{_libdir}/%{name}/libnss3.so.1d
-%attr(755,root,root) %{_libdir}/%{name}/libnssutil3.so.1d
-%attr(755,root,root) %{_libdir}/%{name}/libsmime3.so.1d
-%attr(755,root,root) %{_libdir}/%{name}/libssl3.so.1d
