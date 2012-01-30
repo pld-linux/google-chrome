@@ -1,19 +1,19 @@
 # NOTE
 # - to look and update to new version, use update-source.sh script
 
-%define		svnrev	116452
+%define		svnrev	118311
 %define		state	stable
 %define		rel		1
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	16.0.912.75
+Version:	16.0.912.77
 Release:	%{svnrev}.%{rel}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
-# Source0-md5:	ed08cb2891058db3a62a5b2399aa7fea
+# Source0-md5:	f22fd9f2ae82e8fe0c33585e0e7c6c5a
 Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
-# Source1-md5:	1baa28b426b607b95f7a9629d9a62887
+# Source1-md5:	23fc88c72a02e801223813723ed012f6
 Source2:	%{name}.sh
 Source4:	find-lang.sh
 Patch0:		chrome-desktop.patch
@@ -118,6 +118,12 @@ done
 
 %browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/plugins
 
+# binary needs to be at that specific location, or it will abort:
+# [1070:1070:3265429789299:FATAL:zygote_host_linux.cc(130)] The SUID sandbox helper binary is missing: /opt/google/chrome/chrome-sandbox Aborting now.
+# Aborted
+install -d $RPM_BUILD_ROOT/opt/google
+ln -s %{_libdir}/%{name} /opt/google/chrome
+
 # find locales
 %find_lang %{name}.lang
 
@@ -174,3 +180,6 @@ fi
 
 # ffmpeg libs
 %attr(755,root,root) %{_libdir}/%{name}/libffmpegsumo.so
+
+# hack
+/opt/google/chrome
