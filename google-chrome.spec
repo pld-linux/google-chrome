@@ -122,7 +122,7 @@ done
 # [1070:1070:3265429789299:FATAL:zygote_host_linux.cc(130)] The SUID sandbox helper binary is missing: /opt/google/chrome/chrome-sandbox Aborting now.
 # Aborted
 install -d $RPM_BUILD_ROOT/opt/google
-ln -s %{_libdir}/%{name} /opt/google/chrome
+ln -s %{_libdir}/%{name} $RPM_BUILD_ROOT/opt/google/chrome
 
 # find locales
 %find_lang %{name}.lang
