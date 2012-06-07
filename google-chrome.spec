@@ -68,6 +68,7 @@ Summary:	Chrome PDF Viewer
 Summary(pl.UTF-8):	Wtyczka PDF z Google Chrome
 Group:		X11/Applications/Graphics
 Requires:	browser-plugins >= 2.0
+Conflicts:	google-chrome < 16.0.912.75
 
 %description -n browser-plugin-chrome-pdf
 Google Chrome PDF Viewer.
@@ -84,6 +85,7 @@ Release:	%{!?rel:1}%{?rel:%{rel}}
 License:	Free to use, non-distributable
 Group:		X11/Applications/Multimedia
 Requires:	browser-plugins >= 2.0
+Conflicts:	google-chrome < 16.0.912.75
 
 %description -n browser-plugin-adobe-flash
 Adobe Flash plugin from Google Chrome, which is not available in
@@ -217,19 +219,19 @@ fi
 # FIXME: chrome *needs* it to be in application dir. add symlink until it can load from other places
 # for chromium, we could likely patch source
 %triggerin -n browser-plugin-chrome-pdf -- google-chrome
-test -L %{_libdir}/google-chrome/libpdf.so || ln -s plugins/libpdf.so %{_libdir}/google-chrome/libpdf.so
+test -L %{_libdir}/google-chrome/libpdf.so || ln -sf plugins/libpdf.so %{_libdir}/google-chrome/libpdf.so
 
 %triggerun -n browser-plugin-chrome-pdf -- google-chrome
 rm -f %{_libdir}/google-chrome/libpdf.so
 
 %triggerin -n browser-plugin-chrome-pdf -- chromium-browser
-test -L %{_libdir}/chromium-browser/libpdf.so || ln -s plugins/libpdf.so %{_libdir}/chromium-browser/libpdf.so
+test -L %{_libdir}/chromium-browser/libpdf.so || ln -sf plugins/libpdf.so %{_libdir}/chromium-browser/libpdf.so
 
 %triggerun -n browser-plugin-chrome-pdf -- chromium-browser
 rm -f %{_libdir}/chromium-browser/libpdf.so
 
 %triggerin -n browser-plugin-chrome-pdf -- chromium-browser-bin
-test -L %{_libdir}/chromium-browser-bin/libpdf.so || ln -s plugins/libpdf.so %{_libdir}/chromium-browser-bin/libpdf.so
+test -L %{_libdir}/chromium-browser-bin/libpdf.so || ln -sf plugins/libpdf.so %{_libdir}/chromium-browser-bin/libpdf.so
 
 %triggerun -n browser-plugin-chrome-pdf -- chromium-browser-bin
 rm -f %{_libdir}/chromium-browser-bin/libpdf.so
