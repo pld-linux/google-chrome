@@ -1,12 +1,14 @@
 # NOTE
 # - to look and update to new version, use update-source.sh script
 
+%define		flashv	11.2.202.235
 %define		svnrev	138391
+#define		rel		%{nil}
 %define		state	stable
 Summary:	Google Chrome
 Name:		google-chrome
 Version:	19.0.1084.52
-Release:	%{svnrev}
+Release:	%{svnrev}%{?rel:.%{rel}}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
@@ -30,6 +32,8 @@ Suggests:	browser-plugin-adobe-flash
 Suggests:	browser-plugin-chrome-pdf
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%{expand:%%define	crver %{version}}
 
 %define		find_lang 	sh find-lang.sh %{buildroot}
 
@@ -59,20 +63,6 @@ Google Chrome egy böngésző, amely a minimalista külsőt házasítja össze
 a kifinomult technológiával, hogy a webböngészés gyorsabb,
 biztonságosabb és könnyebb legyen.
 
-%package -n browser-plugin-adobe-flash
-Summary:	Adobe Flash plugin from Google Chrome
-Summary(pl.UTF-8):	Wtyczka Adobe Flash z Google Chrome
-Group:		X11/Applications/Multimedia
-Requires:	browser-plugins >= 2.0
-
-%description -n browser-plugin-adobe-flash
-Adobe Flash plugin from Google Chrome, which is not available in
-Chromium.
-
-%description -n browser-plugin-adobe-flash -l pl.UTF-8
-Wtyczka Adobe Flash z Google Chrome, która nie jest dostępna w
-Chromium.
-
 %package -n browser-plugin-chrome-pdf
 Summary:	Chrome PDF Viewer
 Summary(pl.UTF-8):	Wtyczka PDF z Google Chrome
@@ -85,6 +75,25 @@ Google Chrome PDF Viewer.
 %description -n browser-plugin-chrome-pdf -l pl.UTF-8
 Wtyczka PDF z Google Chrome.
 
+# IMPORTANT: keep flash plugin defined as last package
+%package -n browser-plugin-adobe-flash
+Summary:	Adobe Flash plugin from Google Chrome
+Summary(pl.UTF-8):	Wtyczka Adobe Flash z Google Chrome
+Version:	%{flashv}
+Release:	%{!?rel:1}%{?rel:%{rel}}
+License:	Free to use, non-distributable
+Group:		X11/Applications/Multimedia
+Requires:	browser-plugins >= 2.0
+
+%description -n browser-plugin-adobe-flash
+Adobe Flash plugin from Google Chrome, which is not available in
+Chromium.
+
+%description -n browser-plugin-adobe-flash -l pl.UTF-8
+Wtyczka Adobe Flash z Google Chrome, która nie jest dostępna w
+Chromium.
+
+
 %prep
 %setup -qcT
 %ifarch %{ix86}
@@ -96,7 +105,7 @@ SOURCE=%{S:1}
 
 V=$(rpm -qp --nodigest --nosignature --qf '%{V}' $SOURCE)
 R=$(rpm -qp --nodigest --nosignature --qf '%{R}' $SOURCE)
-if [ version:$V != version:%{version} -o svnrev:$R != svnrev:%{svnrev} ]; then
+if [ version:$V != version:%{crver} -o svnrev:$R != svnrev:%{svnrev} ]; then
 	exit 1
 fi
 rpm2cpio $SOURCE | cpio -i -d
@@ -131,6 +140,14 @@ rm chrome/xdg-mime
 %{__sed} -e 's,@localedir@,%{_libdir}/%{name},' %{SOURCE4} > find-lang.sh
 %{__sed} -i 's;/opt/google/chrome/product_logo_48.png;%{name}.png;' google-chrome.desktop
 %{__sed} -i 's;/opt/google/chrome;%{_bindir};' google-chrome.desktop
+
+%build
+s=$(echo 'LNX %{flashv}' | tr . ,)
+v=$(strings browser-plugins/libgcflashplayer.so | grep '^LNX ')
+if [ "$v" != "$s" ]; then
+	: wrong version
+	exit 1
+fi
 
 %install
 rm -rf $RPM_BUILD_ROOT
