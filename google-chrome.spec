@@ -142,12 +142,14 @@ rm chrome/xdg-mime
 %{__sed} -i 's;/opt/google/chrome;%{_bindir};' google-chrome.desktop
 
 %build
+%ifarch %{ix86}
 s=$(echo 'LNX %{flashv}' | tr . ,)
 v=$(strings browser-plugins/libgcflashplayer.so | grep '^LNX ')
 if [ "$v" != "$s" ]; then
 	: wrong version
 	exit 1
 fi
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
