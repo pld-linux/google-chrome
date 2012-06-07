@@ -3,11 +3,10 @@
 
 %define		svnrev	138391
 %define		state	stable
-%define		rel		1
 Summary:	Google Chrome
 Name:		google-chrome
 Version:	19.0.1084.52
-Release:	%{svnrev}.%{rel}
+Release:	%{svnrev}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
@@ -25,6 +24,10 @@ Requires:	browser-plugins >= 2.0
 Requires:	hicolor-icon-theme
 Requires:	xdg-utils >= 1.0.2-4
 Provides:	wwwbrowser
+%ifarch %{ix86}
+Suggests:	browser-plugin-adobe-flash
+%endif
+Suggests:	browser-plugin-chrome-pdf
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -56,6 +59,32 @@ Google Chrome egy böngésző, amely a minimalista külsőt házasítja össze
 a kifinomult technológiával, hogy a webböngészés gyorsabb,
 biztonságosabb és könnyebb legyen.
 
+%package -n browser-plugin-adobe-flash
+Summary:	Adobe Flash plugin from Google Chrome
+Summary(pl.UTF-8):	Wtyczka Adobe Flash z Google Chrome
+Group:		X11/Applications/Multimedia
+Requires:	browser-plugins >= 2.0
+
+%description -n browser-plugin-adobe-flash
+Adobe Flash plugin from Google Chrome, which is not available in
+Chromium.
+
+%description -n browser-plugin-adobe-flash -l pl.UTF-8
+Wtyczka Adobe Flash z Google Chrome, która nie jest dostępna w
+Chromium.
+
+%package -n browser-plugin-chrome-pdf
+Summary:	Chrome PDF Viewer
+Summary(pl.UTF-8):	Wtyczka PDF z Google Chrome
+Group:		X11/Applications/Graphics
+Requires:	browser-plugins >= 2.0
+
+%description -n browser-plugin-chrome-pdf
+Google Chrome PDF Viewer.
+
+%description -n browser-plugin-chrome-pdf -l pl.UTF-8
+Wtyczka PDF z Google Chrome.
+
 %prep
 %setup -qcT
 %ifarch %{ix86}
@@ -80,6 +109,13 @@ mv chrome/product_logo_*.{png,xpm} .
 mv chrome/google-chrome.desktop .
 mv chrome/google-chrome .
 chmod a+x chrome/lib*.so*
+
+# separate to subpackage
+install -d browser-plugins
+mv chrome/libpdf.so browser-plugins
+%ifarch %{ix86}
+mv chrome/libgcflashplayer.so browser-plugins
+%endif
 
 # included in gnome-control-center-2.28.1-3
 rm default-app-block default-apps/google-chrome.xml
@@ -116,6 +152,9 @@ for icon in product_logo_*.png; do
 	cp -p $icon $RPM_BUILD_ROOT%{_iconsdir}/hicolor/${size}x${size}/apps/%{name}.png
 done
 
+install -d $RPM_BUILD_ROOT%{_browserpluginsdir}
+install -p browser-plugins/*.so $RPM_BUILD_ROOT%{_browserpluginsdir}
+
 %browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/plugins
 
 # binary needs to be at that specific location, or it will abort:
@@ -139,6 +178,42 @@ if [ "$1" = 0 ]; then
 	%update_icon_cache hicolor
 	%update_browser_plugins
 fi
+
+%post -n browser-plugin-adobe-flash
+%update_browser_plugins
+
+%postun -n browser-plugin-adobe-flash
+if [ "$1" = 0 ]; then
+	%update_browser_plugins
+fi
+
+%post -n browser-plugin-chrome-pdf
+%update_browser_plugins
+
+%postun -n browser-plugin-chrome-pdf
+if [ "$1" = 0 ]; then
+	%update_browser_plugins
+fi
+
+# FIXME: chrome *needs* it to be in application dir. add symlink until it can load from other places
+# for chromium, we could likely patch source
+%triggerin -n browser-plugin-chrome-pdf -- google-chrome
+test -L %{_libdir}/google-chrome/libpdf.so || ln -s plugins/libpdf.so %{_libdir}/google-chrome/libpdf.so
+
+%triggerun -n browser-plugin-chrome-pdf -- google-chrome
+rm -f %{_libdir}/google-chrome/libpdf.so
+
+%triggerin -n browser-plugin-chrome-pdf -- chromium-browser
+test -L %{_libdir}/chromium-browser/libpdf.so || ln -s plugins/libpdf.so %{_libdir}/chromium-browser/libpdf.so
+
+%triggerun -n browser-plugin-chrome-pdf -- chromium-browser
+rm -f %{_libdir}/chromium-browser/libpdf.so
+
+%triggerin -n browser-plugin-chrome-pdf -- chromium-browser-bin
+test -L %{_libdir}/chromium-browser-bin/libpdf.so || ln -s plugins/libpdf.so %{_libdir}/chromium-browser-bin/libpdf.so
+
+%triggerun -n browser-plugin-chrome-pdf -- chromium-browser-bin
+rm -f %{_libdir}/chromium-browser-bin/libpdf.so
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
@@ -165,14 +240,6 @@ fi
 # Native Client plugin, to use launch with --enable-nacl
 %attr(755,root,root) %{_libdir}/%{name}/libppGoogleNaClPluginChrome.so
 
-%attr(755,root,root) %{_libdir}/%{name}/libpdf.so
-
-%ifarch %{ix86}
-# flash player
-%{_libdir}/%{name}/plugin.vch
-%attr(755,root,root) %{_libdir}/%{name}/libgcflashplayer.so
-%endif
-
 # nacl
 %attr(755,root,root) %{_libdir}/%{name}/nacl_helper
 %attr(755,root,root) %{_libdir}/%{name}/nacl_helper_bootstrap
@@ -184,3 +251,14 @@ fi
 # hack
 %dir /opt/google
 /opt/google/chrome
+
+%files -n browser-plugin-chrome-pdf
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_browserpluginsdir}/libpdf.so
+
+%ifarch %{ix86}
+%files -n browser-plugin-adobe-flash
+%defattr(644,root,root,755)
+%{_libdir}/%{name}/plugin.vch
+%attr(755,root,root) %{_browserpluginsdir}/libgcflashplayer.so
+%endif
