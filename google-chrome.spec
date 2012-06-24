@@ -65,6 +65,19 @@ Google Chrome egy böngésző, amely a minimalista külsőt házasítja össze
 a kifinomult technológiával, hogy a webböngészés gyorsabb,
 biztonságosabb és könnyebb legyen.
 
+%package l10n
+Summary:	google chrome language packages
+Group:		I18n
+Requires:	%{name} = %{version}-%{release}
+
+%description l10n
+This package contains language packages for 50 languages:
+
+ar, bg, bn, ca, cs, da, de, el, en-GB, es-LA, es, et, fi, fil, fr, gu,
+he, hi, hr, hu, id, it, ja, kn, ko, lt, lv, ml, mr, nb, nl, or, pl,
+pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, ta, te, th, tr, uk, vi, zh-CN,
+zh-TW
+
 %package -n browser-plugin-chrome-pdf
 Summary:	Chrome PDF Viewer
 Summary(pl.UTF-8):	Wtyczka PDF z Google Chrome
@@ -188,6 +201,8 @@ ln -s %{_libdir}/%{name} $RPM_BUILD_ROOT/opt/google/chrome
 
 # find locales
 %find_lang %{name}.lang
+# always package en-US (in main package)
+%{__sed} -i -e '/en-US.pak/d' %{name}.lang
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -253,6 +268,7 @@ rm -f %{_libdir}/chromium-browser-bin/libpdf.so
 %{_libdir}/%{name}/chrome.pak
 %{_libdir}/%{name}/resources.pak
 %dir %{_libdir}/%{name}/locales
+%{_libdir}/%{name}/locales/en-US.pak
 %dir %{_libdir}/%{name}/plugins
 %{_libdir}/%{name}/default_apps
 %{_libdir}/%{name}/themes
@@ -274,6 +290,9 @@ rm -f %{_libdir}/chromium-browser-bin/libpdf.so
 # hack
 %dir /opt/google
 /opt/google/chrome
+
+%files l10n -f %{name}.lang
+%defattr(644,root,root,755)
 
 %files -n browser-plugin-chrome-pdf
 %defattr(644,root,root,755)
