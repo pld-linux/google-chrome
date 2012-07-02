@@ -1,13 +1,14 @@
 #!/bin/sh
 arch=x86_64
-sourceurl=http://dl.google.com/linux/chrome/rpm/stable/$arch/
+branch=${1:-stable}
+sourceurl=http://dl.google.com/linux/chrome/rpm/$branch/$arch/
 set -e
 
 echo -n "Fetching latest version... "
 t=$(mktemp)
 
 poldek -q --st=metadata --source "$sourceurl" --update
-poldek -q --skip-installed --st=metadata --source "$sourceurl" --cmd 'ls google-chrome-stable' > $t
+poldek -q --skip-installed --st=metadata --source "$sourceurl" --cmd "ls google-chrome-$branch" > $t
 
 set -- $(sed -re "s,^.+-([^-]+)-([^-]+).$arch$,\1 \2," $t)
 
