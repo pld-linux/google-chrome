@@ -1,21 +1,21 @@
 # NOTE
 # - to look and update to new version, use update-source.sh script
 
-%define		flashv	11.2.202.236
-%define		svnrev	140965
+%define		flashv	11.3.31.109
+%define		svnrev	144678
 #define		rel		%{nil}
 %define		state	stable
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	19.0.1084.56
+Version:	20.0.1132.47
 Release:	%{svnrev}%{?rel:.%{rel}}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
-Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
-# NoSource0-md5:	c6698373f6ee99e00275719f61a054ce
+Source0:	http://dl.google.com/linux/chrome/rpm/%{state}/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
+# NoSource0-md5:	2019a1388056b8bf5f7349cdfa0af9f2
 NoSource:	0
-Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
-# NoSource1-md5:	fe38f28c107038fcfda1679a7e4eb6d0
+Source1:	http://dl.google.com/linux/chrome/rpm/%{state}/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
+# NoSource1-md5:	3569ed25382cf39c81f1b138bafd7485
 NoSource:	1
 Source2:	%{name}.sh
 Source4:	find-lang.sh
@@ -27,11 +27,9 @@ BuildRequires:	sed >= 4.0
 Requires:	browser-plugins >= 2.0
 Requires:	hicolor-icon-theme
 Requires:	xdg-utils >= 1.0.2-4
-Provides:	wwwbrowser
-%ifarch %{ix86}
 Suggests:	browser-plugin-adobe-flash
-%endif
 Suggests:	browser-plugin-chrome-pdf
+Provides:	wwwbrowser
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -43,12 +41,11 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		no_install_post_strip	1
 
 %define		ffmpeg_caps	libffmpegsumo.so
-%define		jpeg_caps	libpng12.so.0(PNG12_0)
-%define		flash_caps	libflashplayer.so
+%define		flash_caps	libpepflashplayer.so
 %define		chrome_caps	libpdf.so libppGoogleNaClPluginChrome.so
 
 # list of script capabilities (regexps) not to be used in Provides
-%define		_noautoprov		%{ffmpeg_caps} %{jpeg_caps} %{flash_caps} %{chrome_caps}
+%define		_noautoprov		%{ffmpeg_caps} %{flash_caps} %{chrome_caps}
 # do not require them either
 %define		_noautoreq		%{_noautoprov}
 
@@ -110,7 +107,6 @@ Chromium.
 Wtyczka Adobe Flash z Google Chrome, która nie jest dostępna w
 Chromium.
 
-
 %prep
 %setup -qcT
 %ifarch %{ix86}
@@ -139,9 +135,8 @@ chmod a+x chrome/lib*.so*
 # separate to subpackage
 install -d browser-plugins
 mv chrome/libpdf.so browser-plugins
-%ifarch %{ix86}
-mv chrome/libgcflashplayer.so browser-plugins
-%endif
+mv chrome/PepperFlash browser-plugins
+chmod a+rx browser-plugins/PepperFlash/*.so
 
 # included in gnome-control-center-2.28.1-3
 rm default-app-block default-apps/google-chrome.xml
@@ -159,14 +154,11 @@ rm chrome/xdg-mime
 %{__sed} -i 's;/opt/google/chrome;%{_bindir};' google-chrome.desktop
 
 %build
-%ifarch %{ix86}
-s=$(echo 'LNX %{flashv}' | tr . ,)
-v=$(strings browser-plugins/libgcflashplayer.so | grep '^LNX ')
-if [ "$v" != "$s" ]; then
+v=$(awk -F'"' '/version/{print $4}' browser-plugins/PepperFlash/manifest.json)
+if [ "$v" != "%{flashv}" ]; then
 	: wrong version
 	exit 1
 fi
-%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -189,7 +181,7 @@ for icon in product_logo_*.png; do
 done
 
 install -d $RPM_BUILD_ROOT%{_browserpluginsdir}
-install -p browser-plugins/*.so $RPM_BUILD_ROOT%{_browserpluginsdir}
+cp -a browser-plugins/* $RPM_BUILD_ROOT%{_browserpluginsdir}
 
 %browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/plugins
 
@@ -235,23 +227,54 @@ fi
 
 # FIXME: chrome *needs* it to be in application dir. add symlink until it can load from other places
 # for chromium, we could likely patch source
+# FIXME: link PepperFlash, browser-plugins ignores subdirs, and currently nothing else than chrome browsers can do pepper
+%triggerin -n browser-plugin-adobe-flash -- google-chrome
+test -L %{_libdir}/google-chrome/PepperFlash || ln -sf %{_browserpluginsdir}/PepperFlash %{_libdir}/google-chrome/PepperFlash
+
+%triggerun -n browser-plugin-adobe-flash -- google-chrome
+if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/google-chrome/PepperFlash ]; then
+	rm -f %{_libdir}/google-chrome/PepperFlash
+fi
+
 %triggerin -n browser-plugin-chrome-pdf -- google-chrome
 test -L %{_libdir}/google-chrome/libpdf.so || ln -sf plugins/libpdf.so %{_libdir}/google-chrome/libpdf.so
 
 %triggerun -n browser-plugin-chrome-pdf -- google-chrome
-rm -f %{_libdir}/google-chrome/libpdf.so
+if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/google-chrome/libpdf.so ]; then
+	rm -f %{_libdir}/google-chrome/libpdf.so
+fi
+
+%triggerin -n browser-plugin-adobe-flash -- chromium-browser
+test -L %{_libdir}/chromium-browser/PepperFlash || ln -sf %{_browserpluginsdir}/PepperFlash %{_libdir}/chromium-browser/PepperFlash
+
+%triggerun -n browser-plugin-adobe-flash -- chromium-browser
+if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/chromium-browser/PepperFlash ]; then
+	rm -f %{_libdir}/chromium-browser/PepperFlash
+fi
 
 %triggerin -n browser-plugin-chrome-pdf -- chromium-browser
 test -L %{_libdir}/chromium-browser/libpdf.so || ln -sf plugins/libpdf.so %{_libdir}/chromium-browser/libpdf.so
 
 %triggerun -n browser-plugin-chrome-pdf -- chromium-browser
-rm -f %{_libdir}/chromium-browser/libpdf.so
+if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/chromium-browser/libpdf.so ]; then
+	rm -f %{_libdir}/chromium-browser/libpdf.so
+fi
+
+%triggerin -n browser-plugin-adobe-flash -- chromium-browser-bin
+test -L %{_libdir}/chromium-browser-bin/PepperFlash || ln -sf %{_browserpluginsdir}/PepperFlash %{_libdir}/chromium-browser-bin/PepperFlash
+
+%triggerun -n browser-plugin-adobe-flash -- chromium-browser-bin
+if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/chromium-browser-bin/PepperFlash ]; then
+	rm -f %{_libdir}/chromium-browser-bin/PepperFlash
+fi
 
 %triggerin -n browser-plugin-chrome-pdf -- chromium-browser-bin
 test -L %{_libdir}/chromium-browser-bin/libpdf.so || ln -sf plugins/libpdf.so %{_libdir}/chromium-browser-bin/libpdf.so
 
 %triggerun -n browser-plugin-chrome-pdf -- chromium-browser-bin
-rm -f %{_libdir}/chromium-browser-bin/libpdf.so
+if [ "$1" = "0" ] || [ "$2" = "0" ] && [-L %{_libdir}/chromium-browser-bin/libpdf.so ]; then
+	rm -f %{_libdir}/chromium-browser-bin/libpdf.so
+fi
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
@@ -267,6 +290,8 @@ rm -f %{_libdir}/chromium-browser-bin/libpdf.so
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/chrome.pak
 %{_libdir}/%{name}/resources.pak
+%{_libdir}/%{name}/theme_resources_standard.pak
+%{_libdir}/%{name}/ui_resources_standard.pak
 %dir %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/locales/en-US.pak
 %dir %{_libdir}/%{name}/plugins
@@ -298,9 +323,8 @@ rm -f %{_libdir}/chromium-browser-bin/libpdf.so
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_browserpluginsdir}/libpdf.so
 
-%ifarch %{ix86}
 %files -n browser-plugin-adobe-flash
 %defattr(644,root,root,755)
-%{_libdir}/%{name}/plugin.vch
-%attr(755,root,root) %{_browserpluginsdir}/libgcflashplayer.so
-%endif
+%dir %{_browserpluginsdir}/PepperFlash
+%{_browserpluginsdir}/PepperFlash/manifest.json
+%attr(755,root,root) %{_browserpluginsdir}/PepperFlash/libpepflashplayer.so
