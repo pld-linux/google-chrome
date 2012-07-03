@@ -1,7 +1,8 @@
 #!/bin/sh
 arch=x86_64
 branch=${1:-stable}
-sourceurl=http://dl.google.com/linux/chrome/rpm/$branch/$arch/
+sourceurl=http://dl.google.com/linux/chrome/rpm/stable/$arch/
+
 set -e
 
 echo -n "Fetching latest version... "
