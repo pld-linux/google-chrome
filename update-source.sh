@@ -1,5 +1,7 @@
 #!/bin/sh
+# arch to check package. irrelevant for actual arch
 arch=x86_64
+# branch: stable, beta, unstable. default: stable
 branch=${1:-stable}
 sourceurl=http://dl.google.com/linux/chrome/rpm/stable/$arch/
 
