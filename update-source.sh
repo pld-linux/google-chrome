@@ -3,6 +3,16 @@
 arch=x86_64
 # branch: stable, beta, unstable. default: stable
 branch=${1:-stable}
+
+case "${branch}" in
+	stable|beta|unstable)
+		;;
+	*)
+		echo "$0: Unknown branch: $branch. Supported branches: stable, beta, unstable." >&2
+		exit 1
+		;;
+esac
+
 sourceurl=http://dl.google.com/linux/chrome/rpm/stable/$arch/
 
 set -e
