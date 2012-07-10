@@ -38,8 +38,10 @@ if [ "$oldrev" != "$rev" ]; then
 	echo "Updating $specfile for $ver r$rev"
 	sed -i -e "
 		s/^\(%define[ \t]\+svnrev[ \t]\+\)[0-9]\+\$/\1$rev/
+		s/^\(%define[ \t]\+state[ \t]\+\)[a-z]\+\$/\1$branch/
 		s/^\(Version:[ \t]\+\)[.0-9]\+\$/\1$ver/
 	" $specfile
+	../builder -ncs -g $specfile
 	../builder -ncs -5 $specfile
 else
 	echo "Already up to date"
