@@ -11,10 +11,10 @@ Version:	20.0.1132.47
 Release:	%{svnrev}%{?rel:.%{rel}}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
-Source0:	http://dl.google.com/linux/chrome/rpm/%{state}/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
+Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
 # NoSource0-md5:	2019a1388056b8bf5f7349cdfa0af9f2
 NoSource:	0
-Source1:	http://dl.google.com/linux/chrome/rpm/%{state}/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
+Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
 # NoSource1-md5:	3569ed25382cf39c81f1b138bafd7485
 NoSource:	1
 Source2:	%{name}.sh
