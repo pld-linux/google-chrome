@@ -229,7 +229,6 @@ if [ "$1" = 0 ]; then
 fi
 
 # FIXME: chrome *needs* it to be in application dir. add symlink until it can load from other places
-# for chromium, we could likely patch source
 # FIXME: link PepperFlash, browser-plugins ignores subdirs, and currently nothing else than chrome browsers can do pepper
 %triggerin -n browser-plugin-adobe-flash -- google-chrome
 test -L %{_libdir}/google-chrome/PepperFlash || ln -sf %{_browserpluginsdir}/PepperFlash %{_libdir}/google-chrome/PepperFlash
@@ -253,14 +252,6 @@ test -L %{_libdir}/chromium-browser/PepperFlash || ln -sf %{_browserpluginsdir}/
 %triggerun -n browser-plugin-adobe-flash -- chromium-browser
 if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/chromium-browser/PepperFlash ]; then
 	rm -f %{_libdir}/chromium-browser/PepperFlash
-fi
-
-%triggerin -n browser-plugin-chrome-pdf -- chromium-browser
-test -L %{_libdir}/chromium-browser/libpdf.so || ln -sf plugins/libpdf.so %{_libdir}/chromium-browser/libpdf.so
-
-%triggerun -n browser-plugin-chrome-pdf -- chromium-browser
-if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/chromium-browser/libpdf.so ]; then
-	rm -f %{_libdir}/chromium-browser/libpdf.so
 fi
 
 %triggerin -n browser-plugin-adobe-flash -- chromium-browser-bin
