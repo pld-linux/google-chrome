@@ -160,6 +160,9 @@ if [ "$v" != "%{flashv}" ]; then
 	exit 1
 fi
 
+# create extra file, for simplier scripting in chromium-browser.sh
+echo "version=%{flashv}" > browser-plugins/PepperFlash/manifest.ver
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/plugins,%{_mandir}/man1,%{_desktopdir},%{_libdir}/%{name}/themes}
@@ -327,4 +330,5 @@ fi
 %defattr(644,root,root,755)
 %dir %{_browserpluginsdir}/PepperFlash
 %{_browserpluginsdir}/PepperFlash/manifest.json
+%{_browserpluginsdir}/PepperFlash/manifest.ver
 %attr(755,root,root) %{_browserpluginsdir}/PepperFlash/libpepflashplayer.so
