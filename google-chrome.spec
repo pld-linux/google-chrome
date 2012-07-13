@@ -246,14 +246,6 @@ if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/google-chrome/libpdf.so ]
 	rm -f %{_libdir}/google-chrome/libpdf.so
 fi
 
-%triggerin -n browser-plugin-adobe-flash -- chromium-browser
-test -L %{_libdir}/chromium-browser/PepperFlash || ln -sf %{_browserpluginsdir}/PepperFlash %{_libdir}/chromium-browser/PepperFlash
-
-%triggerun -n browser-plugin-adobe-flash -- chromium-browser
-if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/chromium-browser/PepperFlash ]; then
-	rm -f %{_libdir}/chromium-browser/PepperFlash
-fi
-
 %triggerin -n browser-plugin-adobe-flash -- chromium-browser-bin
 test -L %{_libdir}/chromium-browser-bin/PepperFlash || ln -sf %{_browserpluginsdir}/PepperFlash %{_libdir}/chromium-browser-bin/PepperFlash
 
