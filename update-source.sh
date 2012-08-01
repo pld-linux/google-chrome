@@ -13,15 +13,19 @@ case "${branch}" in
 		;;
 esac
 
-sourceurl=http://dl.google.com/linux/chrome/rpm/stable/$arch/
+sourceurl=http://dl.google.com/linux/chrome/rpm/stable/$arch
 
 set -e
 
 echo -n "Fetching latest version... "
 t=$(mktemp)
 
-poldek -q --st=metadata --source "$sourceurl" --update
-poldek -q --skip-installed --st=metadata --source "$sourceurl" --cmd "ls google-chrome-$branch" > $t
+# poldek is buggy, see https://bugs.launchpad.net/poldek/+bug/1026762
+#poldek -q --st=metadata --source "$sourceurl/" --update
+#poldek -q --skip-installed --st=metadata --source "$sourceurl/" --cmd "ls google-chrome-$branch" > $t
+
+wget -c $sourceurl/repodata/primary.xml.gz
+zcat primary.xml.gz | perl -ne 'm{<name>google-chrome-'$branch'</name>} and m{<version epoch="0" ver="([\d.]+)" rel="(\d+)"/>} and print "$1 $2"' > $t
 
 set -- $(sed -re "s,^.+-([^-]+)-([^-]+).$arch$,\1 \2," $t)
 
