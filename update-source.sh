@@ -29,7 +29,7 @@ zcat primary.xml.gz | perl -ne 'm{<name>google-chrome-'$branch'</name>} and m{<v
 
 set -- $(sed -re "s,^.+-([^-]+)-([^-]+).$arch$,\1 \2," $t)
 
-rm -f $t
+rm -f primary.xml.gz $t
 
 ver=$1
 rev=$2
