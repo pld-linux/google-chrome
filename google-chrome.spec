@@ -80,7 +80,7 @@ Summary:	Chrome PDF Viewer
 Summary(pl.UTF-8):	Wtyczka PDF z Google Chrome
 Group:		X11/Applications/Graphics
 Requires:	browser-plugins >= 2.0
-Conflicts:	google-chrome < 16.0.912.75
+Conflicts:	google-chrome < 19.0.1084.52
 
 %description -n browser-plugin-chrome-pdf
 Google Chrome PDF Viewer.
@@ -97,7 +97,7 @@ Release:	%{!?rel:1}%{?rel:%{rel}}
 License:	Free to use, non-distributable
 Group:		X11/Applications/Multimedia
 Requires:	browser-plugins >= 2.0
-Conflicts:	google-chrome < 16.0.912.75
+Conflicts:	google-chrome < 19.0.1084.52
 
 %description -n browser-plugin-adobe-flash
 Adobe Flash plugin from Google Chrome, which is not available in
