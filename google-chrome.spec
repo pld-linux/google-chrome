@@ -265,7 +265,7 @@ if [ "$1" = "0" ] || [ "$2" = "0" ] && [-L %{_libdir}/chromium-browser-bin/libpd
 	rm -f %{_libdir}/chromium-browser-bin/libpdf.so
 fi
 
-%files -f %{name}.lang
+%files
 %defattr(644,root,root,755)
 
 %{_browserpluginsconfdir}/browsers.d/%{name}.*
