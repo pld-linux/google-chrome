@@ -30,6 +30,9 @@ Requires:	xdg-utils >= 1.0.2-4
 Suggests:	browser-plugin-adobe-flash
 Suggests:	browser-plugin-chrome-pdf
 Provides:	wwwbrowser
+# add conflicts to trigger their update when main package is updated
+Conflicts:	browser-plugin-adobe-flash < %{flashv}-%{!?rel:1}%{?rel:%{rel}}
+Conflicts:	browser-plugin-chrome-pdf < %{version}-%{release}
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
