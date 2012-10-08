@@ -1,21 +1,21 @@
 # NOTE
 # - to look and update to new version, use update-source.sh script
 
-%define		flashv	11.3.31.232
-%define		svnrev	154005
+%define		flashv	11.4.31.110
+%define		svnrev	159988
 #define		rel		%{nil}
 %define		state	stable
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	21.0.1180.89
+Version:	22.0.1229.92
 Release:	%{svnrev}%{?rel:.%{rel}}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
-# NoSource0-md5:	8b65abb5ec81e03d8365a22eaf68a953
+# NoSource0-md5:	396ae739a33cc259f7ee1498ff4435aa
 NoSource:	0
 Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
-# NoSource1-md5:	1c729bc2e378d229966c90159a73fdc9
+# NoSource1-md5:	85fa7bca320716bd24b82f8b1a5bcfd2
 NoSource:	1
 Source2:	%{name}.sh
 Source4:	find-lang.sh
@@ -279,8 +279,8 @@ fi
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/chrome.pak
 %{_libdir}/%{name}/resources.pak
-%{_libdir}/%{name}/theme_resources_standard.pak
-%{_libdir}/%{name}/ui_resources_standard.pak
+%{_libdir}/%{name}/theme_resources_*.pak
+%{_libdir}/%{name}/ui_resources_*.pak
 %dir %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/locales/en-US.pak
 %dir %{_libdir}/%{name}/plugins
