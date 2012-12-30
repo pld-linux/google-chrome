@@ -198,8 +198,8 @@ install -d $RPM_BUILD_ROOT/opt/google
 ln -s %{_libdir}/%{name} $RPM_BUILD_ROOT/opt/google/chrome
 
 # official rpm just add libudev.so.0 -> libudev.so.1 symlink, so we use similar hack here
-if grep -qE "libudev\.so\.0" $RPM_BUILD_ROOT%{_libdir}/google-chrome/chrome; then
-	%{__sed} -i -e 's#libudev\.so\.0#libudev.so.1#g' $RPM_BUILD_ROOT%{_libdir}/google-chrome/chrome
+if grep -qE "libudev\.so\.0" $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome; then
+	%{__sed} -i -e 's#libudev\.so\.0#libudev.so.1#g' $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome
 else
 	echo "Hack no longer needed? No longer linked with libudev.so.0 ?" >&2
 	exit 1
@@ -242,19 +242,19 @@ fi
 # FIXME: chrome *needs* it to be in application dir. add symlink until it can load from other places
 # FIXME: link PepperFlash, browser-plugins ignores subdirs, and currently nothing else than chrome browsers can do pepper
 %triggerin -n browser-plugin-adobe-flash -- google-chrome
-test -L %{_libdir}/google-chrome/PepperFlash || ln -sf %{_browserpluginsdir}/PepperFlash %{_libdir}/google-chrome/PepperFlash
+test -L %{_libdir}/%{name}/PepperFlash || ln -sf %{_browserpluginsdir}/PepperFlash %{_libdir}/%{name}/PepperFlash
 
 %triggerun -n browser-plugin-adobe-flash -- google-chrome
-if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/google-chrome/PepperFlash ]; then
-	rm -f %{_libdir}/google-chrome/PepperFlash
+if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/%{name}/PepperFlash ]; then
+	rm -f %{_libdir}/%{name}/PepperFlash
 fi
 
 %triggerin -n browser-plugin-chrome-pdf -- google-chrome
-test -L %{_libdir}/google-chrome/libpdf.so || ln -sf plugins/libpdf.so %{_libdir}/google-chrome/libpdf.so
+test -L %{_libdir}/%{name}/libpdf.so || ln -sf plugins/libpdf.so %{_libdir}/%{name}/libpdf.so
 
 %triggerun -n browser-plugin-chrome-pdf -- google-chrome
-if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/google-chrome/libpdf.so ]; then
-	rm -f %{_libdir}/google-chrome/libpdf.so
+if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/%{name}/libpdf.so ]; then
+	rm -f %{_libdir}/%{name}/libpdf.so
 fi
 
 %triggerin -n browser-plugin-adobe-flash -- chromium-browser-bin
