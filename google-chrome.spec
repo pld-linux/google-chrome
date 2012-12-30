@@ -198,8 +198,8 @@ install -d $RPM_BUILD_ROOT/opt/google
 ln -s %{_libdir}/%{name} $RPM_BUILD_ROOT/opt/google/chrome
 
 # official rpm just add libudev.so.0 -> libudev.so.1 symlink, so we use similar hack here
-if (grep -qE "libudev\.so\.0" $RPM_BUILD_ROOT%{_libdir}/google-chrome/chrome); then
-	sed -i -e 's#libudev\.so\.0#libudev.so.1#g' $RPM_BUILD_ROOT%{_libdir}/google-chrome/chrome
+if grep -qE "libudev\.so\.0" $RPM_BUILD_ROOT%{_libdir}/google-chrome/chrome; then
+	%{__sed} -i -e 's#libudev\.so\.0#libudev.so.1#g' $RPM_BUILD_ROOT%{_libdir}/google-chrome/chrome
 else
 	echo "Hack no longer needed? No longer linked with libudev.so.0 ?" >&2
 	exit 1
