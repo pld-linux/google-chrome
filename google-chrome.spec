@@ -25,6 +25,8 @@ BuildRequires:	rpm-utils
 BuildRequires:	rpmbuild(macros) >= 1.453
 BuildRequires:	sed >= 4.0
 Requires:	browser-plugins >= 2.0
+# requires any TTF font actually
+Requires:	fonts-TTF-bitstream-vera
 Requires:	hicolor-icon-theme
 Requires:	xdg-utils >= 1.0.2-4
 Suggests:	browser-plugin-adobe-flash
