@@ -1,21 +1,21 @@
 # NOTE
 # - to look and update to new version, use update-source.sh script
 
-%define		flashv	11.5.31.138
-%define		svnrev	180326
+%define		flashv	11.6.602.167
+%define		svnrev	181759
 #define		rel		%{nil}
 %define		state	stable
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	24.0.1312.68
+Version:	24.0.1312.70
 Release:	%{svnrev}%{?rel:.%{rel}}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
-# NoSource0-md5:	b58cd325c7787d3834e103ef4a5a8c47
+# NoSource0-md5:	d342611866c9c594ab6d4e50d1ad3187
 NoSource:	0
 Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
-# NoSource1-md5:	484194c94275aa6a1143cd9719af047e
+# NoSource1-md5:	5b04aff2337b781c0c34bc40149313b8
 NoSource:	1
 Source2:	%{name}.sh
 Source4:	find-lang.sh
@@ -197,6 +197,8 @@ cp -a browser-plugins/* $RPM_BUILD_ROOT%{_browserpluginsdir}
 # [1070:1070:3265429789299:FATAL:zygote_host_linux.cc(130)] The SUID sandbox helper binary is missing: /opt/google/chrome/chrome-sandbox Aborting now.
 # Aborted
 install -d $RPM_BUILD_ROOT/opt/google
+# see if CHROME_DEVEL_SANDBOX env var helps
+# content/browser/browser_main_loop.cc
 ln -s %{_libdir}/%{name} $RPM_BUILD_ROOT/opt/google/chrome
 
 # official rpm just add libudev.so.0 -> libudev.so.1 symlink, so we use similar hack here
