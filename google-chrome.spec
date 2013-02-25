@@ -1,21 +1,21 @@
 # NOTE
 # - to look and update to new version, use update-source.sh script
 
-%define		flashv	11.6.602.167
-%define		svnrev	181759
+%define		flashv	11.6.602.171
+%define		svnrev	183676
 #define		rel		%{nil}
 %define		state	stable
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	24.0.1312.70
+Version:	25.0.1364.97
 Release:	%{svnrev}%{?rel:.%{rel}}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
-# NoSource0-md5:	d342611866c9c594ab6d4e50d1ad3187
+# NoSource0-md5:	4937bcc46d192b5b56aef75d65cd6fe2
 NoSource:	0
 Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
-# NoSource1-md5:	5b04aff2337b781c0c34bc40149313b8
+# NoSource1-md5:	493713690cad099298c172828342dcc1
 NoSource:	1
 Source2:	%{name}.sh
 Source4:	find-lang.sh
@@ -308,6 +308,7 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/nacl_helper
 %attr(755,root,root) %{_libdir}/%{name}/nacl_helper_bootstrap
 %attr(755,root,root) %{_libdir}/%{name}/nacl_irt_x86_*.nexe
+%attr(755,root,root) %{_libdir}/%{name}/nacl_irt_srpc_x86_*.nexe
 
 # ffmpeg libs
 %attr(755,root,root) %{_libdir}/%{name}/libffmpegsumo.so
