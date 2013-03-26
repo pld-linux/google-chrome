@@ -2,20 +2,20 @@
 # - to look and update to new version, use update-source.sh script
 
 %define		flashv	11.6.602.180
-%define		svnrev	187217
+%define		svnrev	189671
 #define		rel		%{nil}
 %define		state	stable
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	25.0.1364.172
+Version:	26.0.1410.43
 Release:	%{svnrev}%{?rel:.%{rel}}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
-# NoSource0-md5:	68bacc0d36176051a96b2f3687f82248
+# NoSource0-md5:	37331c58b9805ad1e7621b5f002d3e4e
 NoSource:	0
 Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
-# NoSource1-md5:	b13be4231abb19894b96b357aaa264f0
+# NoSource1-md5:	76524edb4ce9d3f946c050a48e831437
 NoSource:	1
 Source2:	%{name}.sh
 Source4:	find-lang.sh
@@ -308,7 +308,10 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/nacl_helper
 %attr(755,root,root) %{_libdir}/%{name}/nacl_helper_bootstrap
 %attr(755,root,root) %{_libdir}/%{name}/nacl_irt_x86_*.nexe
-%attr(755,root,root) %{_libdir}/%{name}/nacl_irt_srpc_x86_*.nexe
+
+# DRM
+%attr(755,root,root) %{_libdir}/%{name}/libwidevinecdm.so
+%attr(755,root,root) %{_libdir}/%{name}/libwidevinecdmadapter.so
 
 # ffmpeg libs
 %attr(755,root,root) %{_libdir}/%{name}/libffmpegsumo.so
