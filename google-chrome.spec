@@ -2,20 +2,20 @@
 # - to look and update to new version, use update-source.sh script
 
 %define		flashv	11.7.700.203
-%define		svnrev	202711
+%define		svnrev	207119
 #define		rel		%{nil}
 %define		state	stable
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	27.0.1453.110
+Version:	28.0.1500.52
 Release:	%{svnrev}%{?rel:.%{rel}}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
-# NoSource0-md5:	ed6fc282f2507ee541fd349bf057fe6b
+# NoSource0-md5:	881d2220632e24206e37f34d37d41bcc
 NoSource:	0
 Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
-# NoSource1-md5:	1a0111085f4d32a9e56a348d548b8a67
+# NoSource1-md5:	49a38ca9dbf29e2d8da57c1117617034
 NoSource:	1
 Source2:	%{name}.sh
 Source4:	find-lang.sh
@@ -289,6 +289,7 @@ fi
 %{_iconsdir}/hicolor/*/apps/%{name}.png
 
 %dir %{_libdir}/%{name}
+%dir %{_libdir}/%{name}/lib
 %{_libdir}/%{name}/chrome.pak
 %{_libdir}/%{name}/resources.pak
 %{_libdir}/%{name}/chrome_100_percent.pak
@@ -298,6 +299,7 @@ fi
 %{_libdir}/%{name}/default_apps
 %{_libdir}/%{name}/themes
 %attr(755,root,root) %{_libdir}/%{name}/chrome
+%attr(755,root,root) %{_libdir}/%{name}/lib/libpeerconnection.so
 # These unique permissions are intentional and necessary for the sandboxing
 %attr(4555,root,root) %{_libdir}/%{name}/chrome-sandbox
 
