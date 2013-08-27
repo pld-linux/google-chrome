@@ -1,11 +1,11 @@
 --- google-chrome-15.0.874.106/google-chrome.desktop~	2011-10-27 00:22:10.000000000 +0300
 +++ google-chrome-15.0.874.106/google-chrome.desktop	2011-10-27 00:24:02.861899987 +0300
-@@ -110,7 +110,7 @@
+@@ -110,7 +110,7 @@ Terminal=false
  Icon=google-chrome
  Type=Application
  Categories=Network;WebBrowser;
--MimeType=text/html;text/xml;application/xhtml_xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
-+MimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
+-MimeType=text/html;text/xml;application/xhtml_xml;image/webp;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
++MimeType=text/html;text/xml;application/xhtml+xml;image/webp;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
  X-Ayatana-Desktop-Shortcuts=NewWindow;NewIncognito
  
  [NewWindow Shortcut Group]
