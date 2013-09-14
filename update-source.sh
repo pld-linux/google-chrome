@@ -57,16 +57,17 @@ echo "$ver-$rev"
 
 oldrev=$(awk '/^%define[ 	]+svnrev[ 	]+/{print $NF}' $specfile)
 oldflash=$(awk '/^%define[ 	]+flashv[ 	]+/{print $NF}' $specfile)
-if [ "$oldrev" != "$rev" -o "$oldflash" != "$flashv" ]; then
-	echo "Updating $specfile for $ver r$rev"
-	sed -i -e "
-		s/^\(%define[ \t]\+svnrev[ \t]\+\)[0-9]\+\$/\1$rev/
-		s/^\(%define[ \t]\+state[ \t]\+\)[a-z]\+\$/\1$branch/
-		s/^\(%define[ \t]\+flashv[ \t]\+\)[0-9.]\+\$/\1$flashv/
-		s/^\(Version:[ \t]\+\)[.0-9]\+\$/\1$ver/
-	" $specfile
-	../builder -ncs -g $specfile || :
-	../builder -ncs -5 $specfile
-else
+if [ "$oldrev" = "$rev" -a "$oldflash" = "$flashv" ]; then
 	echo "Already up to date"
+	exit 0
 fi
+
+echo "Updating $specfile for $ver r$rev"
+sed -i -e "
+	s/^\(%define[ \t]\+svnrev[ \t]\+\)[0-9]\+\$/\1$rev/
+	s/^\(%define[ \t]\+state[ \t]\+\)[a-z]\+\$/\1$branch/
+	s/^\(%define[ \t]\+flashv[ \t]\+\)[0-9.]\+\$/\1$flashv/
+	s/^\(Version:[ \t]\+\)[.0-9]\+\$/\1$ver/
+" $specfile
+../builder -ncs -g $specfile || :
+../builder -ncs -5 $specfile
