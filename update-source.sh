@@ -62,7 +62,7 @@ if [ "$oldrev" != "$rev" -o "$oldflash" != "$flashv" ]; then
 	sed -i -e "
 		s/^\(%define[ \t]\+svnrev[ \t]\+\)[0-9]\+\$/\1$rev/
 		s/^\(%define[ \t]\+state[ \t]\+\)[a-z]\+\$/\1$branch/
-		s/^\(%define[ \t]\+flashv[ \t]\+\)[a-z]\+\$/\1$flashv/
+		s/^\(%define[ \t]\+flashv[ \t]\+\)[0-9.]\+\$/\1$flashv/
 		s/^\(Version:[ \t]\+\)[.0-9]\+\$/\1$ver/
 	" $specfile
 	../builder -ncs -g $specfile || :
