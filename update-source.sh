@@ -30,24 +30,29 @@ t=$(mktemp)
 #poldek -q --st=metadata --source "$sourceurl/" --update
 #poldek -q --skip-installed --st=metadata --source "$sourceurl/" --cmd "ls google-chrome-$branch" > $t
 
-wget -c $sourceurl/repodata/primary.xml.gz
-zcat primary.xml.gz | perl -ne 'm{<name>google-'$product-$branch'</name>} and m{<version epoch="0" ver="([\d.]+)" rel="(\d+)"/>} and print "$1 $2"' > $t
+repodata=primary-$branch-$(date +%Y%m%d).xml
+test -e $repodata || {
+	wget -c $sourceurl/repodata/primary.xml.gz
+	gzip -dc primary.xml.gz > $repodata
+}
+perl -ne 'm{<name>google-'$product-$branch'</name>} and m{<version epoch="0" ver="([\d.]+)" rel="(\d+)"/>} and print "$1 $2"' > $t < $repodata
 
 set -- $(sed -re "s,^.+-([^-]+)-([^-]+).$arch$,\1 \2," $t)
-
-rm -f primary.xml.gz
 
 ver=$1
 rev=$2
 
 # extract flash version
 rpm=$name-$branch-$ver-$rev.$arch.rpm
-wget -c $sourceurl/$rpm
-echo ./opt/google/chrome/PepperFlash/manifest.json > $t
-rpm2cpio $rpm | cpio -i -E $t --to-stdout > manifest.json
-flashv=$(awk -F'"' '/version/{print $4}' manifest.json)
-rm -f $t
+manifest=manifest-$ver.json
+test -e $rpm || wget -c $sourceurl/$rpm
+test -e $manifest || {
+	echo ./opt/google/chrome/PepperFlash/manifest.json > $t
+	rpm2cpio $rpm | cpio -i -E $t --to-stdout > manifest-$ver.json
+}
+flashv=$(awk -F'"' '/version/{print $4}' manifest-$ver.json)
 
+rm -f $t
 echo "$ver-$rev"
 
 oldrev=$(awk '/^%define[ 	]+svnrev[ 	]+/{print $NF}' $specfile)
