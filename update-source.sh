@@ -47,6 +47,7 @@ wd=$(mktemp -d)
 echo ./opt/google/chrome/PepperFlash/manifest.json > $t
 rpm2cpio $rpm | cpio -i -E $t --to-stdout > manifest.json
 flashv=$(awk -F'"' '/version/{print $4}' manifest.json)
+rm -f $t
 
 echo "$ver-$rev"
 
