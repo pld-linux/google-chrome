@@ -6,7 +6,7 @@ name=google-$product
 # this package
 specfile=$name.spec
 # arch to check package. irrelevant for actual arch
-arch=i386
+arch=x86_64
 # branch: stable, beta, unstable. default: stable
 branch=${1:-stable}
 
