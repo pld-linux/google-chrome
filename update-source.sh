@@ -1,4 +1,12 @@
 #!/bin/sh
+
+if [ "$1" = "-k" ]; then
+	cache=yes
+	shift
+else
+	cache=no
+fi
+
 # product name
 product=chrome
 # name
@@ -31,6 +39,7 @@ t=$(mktemp)
 #poldek -q --skip-installed --st=metadata --source "$sourceurl/" --cmd "ls google-chrome-$branch" > $t
 
 repodata=primary-$branch-$(date +%Y%m%d).xml
+[ "$cache" = "yes" ] || rm -f "$repodata"
 test -e $repodata || {
 	wget -c $sourceurl/repodata/primary.xml.gz
 	gzip -dc primary.xml.gz > $repodata || test -s $repodata
