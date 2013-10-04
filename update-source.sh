@@ -65,8 +65,9 @@ rm -f $t
 echo "$ver-$rev"
 
 oldrev=$(awk '/^%define[ 	]+svnrev[ 	]+/{print $NF}' $specfile)
+oldver=$(awk '/^Version:[ \t]+/{print $NF; exit}' $specfile)
 oldflash=$(awk '/^%define[ 	]+flashv[ 	]+/{print $NF}' $specfile)
-if [ "$oldrev" = "$rev" -a "$oldflash" = "$flashv" ]; then
+if [ "$oldrev" = "$rev" -a "$oldver" = "$ver" -a "$oldflash" = "$flashv" ]; then
 	echo "Already up to date"
 	exit 0
 fi
