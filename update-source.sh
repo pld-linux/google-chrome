@@ -79,5 +79,5 @@ sed -i -e "
 	s/^\(%define[ \t]\+flashv[ \t]\+\)[0-9.]\+\$/\1$flashv/
 	s/^\(Version:[ \t]\+\)[.0-9]\+\$/\1$ver/
 " $specfile
-../builder -ncs -g $specfile || :
-../builder -ncs -5 $specfile
+../builder -ncs -nd -g $specfile || :
+../builder -ncs -nd -5 $specfile
