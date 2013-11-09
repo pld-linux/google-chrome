@@ -61,7 +61,7 @@ test -e $manifest || {
 }
 flashv=$(awk -F'"' '/version/{print $4}' manifest-$ver.json)
 
-rm -f $t
+rm -f "$t" "$manifest"
 echo "$ver-$rev"
 
 oldrev=$(awk '/^%define[ 	]+svnrev[ 	]+/{print $NF}' $specfile)
@@ -79,5 +79,5 @@ sed -i -e "
 	s/^\(%define[ \t]\+flashv[ \t]\+\)[0-9.]\+\$/\1$flashv/
 	s/^\(Version:[ \t]\+\)[.0-9]\+\$/\1$ver/
 " $specfile
-../builder -ncs -nd -g $specfile || :
+../builder -ncs -nd -n5 -g $specfile 2> /dev/null || :
 ../builder -ncs -nd -5 $specfile
