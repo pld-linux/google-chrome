@@ -62,7 +62,7 @@ test -e $manifest || {
 flashv=$(awk -F'"' '/version/{print $4}' manifest-$ver.json)
 
 rm -f "$t" "$manifest"
-echo "$ver-$rev"
+echo "google-chrome/$ver-$rev flash/$flashv"
 
 oldrev=$(awk '/^%define[ 	]+svnrev[ 	]+/{print $NF}' $specfile)
 oldver=$(awk '/^Version:[ \t]+/{print $NF; exit}' $specfile)
@@ -72,7 +72,7 @@ if [ "$oldrev" = "$rev" -a "$oldver" = "$ver" -a "$oldflash" = "$flashv" ]; then
 	exit 0
 fi
 
-echo "Updating $specfile for $ver r$rev"
+echo "Updating $specfile for google-chrome/$ver-$rev, flash/$flashv"
 sed -i -e "
 	s/^\(%define[ \t]\+svnrev[ \t]\+\)[0-9]\+\$/\1$rev/
 	s/^\(%define[ \t]\+state[ \t]\+\)[a-z]\+\$/\1$branch/
