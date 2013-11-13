@@ -68,11 +68,11 @@ oldrev=$(awk '/^%define[ 	]+svnrev[ 	]+/{print $NF}' $specfile)
 oldver=$(awk '/^Version:[ \t]+/{print $NF; exit}' $specfile)
 oldflash=$(awk '/^%define[ 	]+flashv[ 	]+/{print $NF}' $specfile)
 if [ "$oldrev" = "$rev" -a "$oldver" = "$ver" -a "$oldflash" = "$flashv" ]; then
-	echo "Already up to date"
+	echo "Already up to date (google-chrome/$ver-$rev flash/$flashv)"
 	exit 0
 fi
 
-echo "Updating $specfile for google-chrome/$ver-$rev, flash/$flashv"
+echo "Updating $specfile for google-chrome/$oldver-$oldrev -> $ver-$rev, flash/$oldflash -> $flashv"
 sed -i -e "
 	s/^\(%define[ \t]\+svnrev[ \t]\+\)[0-9]\+\$/\1$rev/
 	s/^\(%define[ \t]\+state[ \t]\+\)[a-z]\+\$/\1$branch/
