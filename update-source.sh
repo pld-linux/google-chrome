@@ -62,7 +62,6 @@ test -e $manifest || {
 flashv=$(awk -F'"' '/version/{print $4}' manifest-$ver.json)
 
 rm -f "$t" "$manifest"
-echo "google-chrome/$ver-$rev flash/$flashv"
 
 oldrev=$(awk '/^%define[ 	]+svnrev[ 	]+/{print $NF}' $specfile)
 oldver=$(awk '/^Version:[ \t]+/{print $NF; exit}' $specfile)
