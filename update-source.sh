@@ -51,6 +51,14 @@ set -- $(sed -re "s,^.+-([^-]+)-([^-]+).$arch$,\1 \2," $t)
 ver=$1
 rev=$2
 
+# check google-chrome ver only
+oldrev=$(awk '/^%define[ 	]+svnrev[ 	]+/{print $NF}' $specfile)
+oldver=$(awk '/^Version:[ \t]+/{print $NF; exit}' $specfile)
+if [ "$oldrev" = "$rev" -a "$oldver" = "$ver" ]; then
+	echo "Already up to date (google-chrome/$ver-$rev)"
+	exit 0
+fi
+
 # extract flash version
 rpm=$name-$branch-$ver-$rev.$arch.rpm
 manifest=manifest-$ver.json
@@ -63,8 +71,7 @@ flashv=$(awk -F'"' '/version/{print $4}' manifest-$ver.json)
 
 rm -f "$t" "$manifest"
 
-oldrev=$(awk '/^%define[ 	]+svnrev[ 	]+/{print $NF}' $specfile)
-oldver=$(awk '/^Version:[ \t]+/{print $NF; exit}' $specfile)
+# check google-chrome and flash ver
 oldflash=$(awk '/^%define[ 	]+flashv[ 	]+/{print $NF}' $specfile)
 if [ "$oldrev" = "$rev" -a "$oldver" = "$ver" -a "$oldflash" = "$flashv" ]; then
 	echo "Already up to date (google-chrome/$ver-$rev flash/$flashv)"
