@@ -157,6 +157,7 @@ rm chrome/xdg-mime
 %{__sed} -e 's,@localedir@,%{_libdir}/%{name},' %{SOURCE4} > find-lang.sh
 %{__sed} -i 's;/opt/google/chrome/product_logo_48.png;%{name}.png;' google-chrome.desktop
 %{__sed} -i 's;/opt/google/chrome;%{_bindir};' google-chrome.desktop
+%{__sed} -i 's#google-chrome-\(stable\|beta\|unstable\)#google-chrome#g' google-chrome.desktop
 
 %build
 v=$(awk -F'"' '/version/{print $4}' browser-plugins/PepperFlash/manifest.json)
