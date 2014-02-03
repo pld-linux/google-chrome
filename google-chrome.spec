@@ -2,20 +2,20 @@
 # - to look and update to new version, use update-source.sh script
 
 %define		svnrev	1
-%define		flashv	12.0.0.41
+%define		flashv	12.0.0.44
 #define		rel		%{nil}
 %define		state	stable
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	32.0.1700.77
+Version:	32.0.1700.107
 Release:	%{svnrev}%{?rel:.%{rel}}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
-# NoSource0-md5:	9762cb04585108d7b632f71133841152
+# NoSource0-md5:	cbf43c016933f8b01c76b3629dd401f6
 NoSource:	0
 Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
-# NoSource1-md5:	d75c02e3fc7f0e6effaf30942b7e262a
+# NoSource1-md5:	086764f1e14b6679775af61fa22e2fd7
 NoSource:	1
 Source2:	%{name}.sh
 Source4:	find-lang.sh
