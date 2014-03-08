@@ -7,15 +7,15 @@
 %define		state	stable
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	33.0.1750.117
+Version:	33.0.1750.146
 Release:	%{svnrev}%{?rel:.%{rel}}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
-# NoSource0-md5:	4f36a679e9de678ae49ee59ecbd96f3c
+# NoSource0-md5:	680c431bd81a07d61aabcb79eaf837c4
 NoSource:	0
 Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
-# NoSource1-md5:	75463443c572bdce8e4cc307e6d5a41a
+# NoSource1-md5:	d22dfb7d11ad554bde026e605245f5cf
 NoSource:	1
 Source2:	%{name}.sh
 Source4:	find-lang.sh
