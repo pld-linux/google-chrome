@@ -2,20 +2,20 @@
 # - to look and update to new version, use update-source.sh script
 
 %define		svnrev	1
-%define		flashv	12.0.0.77
+%define		flashv	13.0.0.182
 #define		rel		%{nil}
 %define		state	stable
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	33.0.1750.152
+Version:	34.0.1847.116
 Release:	%{svnrev}%{?rel:.%{rel}}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
-# NoSource0-md5:	7298d6f3b58b3c054349ab2d9d5e49f7
+# NoSource0-md5:	30c84fd27aaf1db3e8404cdcf8c248c7
 NoSource:	0
 Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
-# NoSource1-md5:	687c92ddc6bafc5fb41f2d6ca90de6b4
+# NoSource1-md5:	c613f12de7b916663aba32ae1ba8c0b8
 NoSource:	1
 Source2:	%{name}.sh
 Source4:	find-lang.sh
@@ -291,8 +291,9 @@ fi
 
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/lib
-%{_libdir}/%{name}/resources.pak
+%{_libdir}/%{name}/icudtl.dat
 %{_libdir}/%{name}/chrome_100_percent.pak
+%{_libdir}/%{name}/resources.pak
 %dir %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/locales/en-US.pak
 %dir %{_libdir}/%{name}/plugins
