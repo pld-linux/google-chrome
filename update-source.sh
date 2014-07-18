@@ -64,8 +64,12 @@ rpm=$name-$branch-$ver-$rev.$arch.rpm
 manifest=manifest-$ver.json
 test -e $rpm || wget -c $sourceurl/$rpm
 test -e $manifest || {
-	echo ./opt/google/chrome/PepperFlash/manifest.json > $t
+	echo ./opt/google/chrome*/PepperFlash/manifest.json > $t
 	rpm2cpio $rpm | cpio -i -E $t --to-stdout > manifest-$ver.json
+	if [ ! -s manifest-$ver.json ]; then
+		echo "Failed to extract flash version."
+		exit 1
+	fi
 }
 flashv=$(awk -F'"' '/version/{print $4}' manifest-$ver.json)
 
