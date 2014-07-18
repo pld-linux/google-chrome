@@ -5,6 +5,9 @@
 %define		flashv	14.0.0.145
 #define		rel		%{nil}
 %define		state	stable
+%if "%{state}" == "beta" || "%{state}" == "unstable"
+%define		gcsuffix	-%{state}
+%endif
 Summary:	Google Chrome
 Name:		google-chrome
 Version:	36.0.1985.125
@@ -19,7 +22,6 @@ Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{
 NoSource:	1
 Source2:	%{name}.sh
 Source4:	find-lang.sh
-Patch0:		chrome-desktop.patch
 URL:		http://chrome.google.com/
 BuildRequires:	rpm-utils
 BuildRequires:	rpmbuild(macros) >= 1.453
@@ -128,36 +130,35 @@ if [ version:$V != version:%{crver} -o svnrev:$R != svnrev:%{svnrev} ]; then
 fi
 rpm2cpio $SOURCE | cpio -i -d
 
-mv opt/google/chrome .
+mv opt/google/chrome%{?gcsuffix} .
 mv usr/share/man/man1/* .
 mv usr/share/gnome-control-center/default-apps .
-mv chrome/default-app-block .
-mv chrome/product_logo_*.{png,xpm} .
-mv usr/share/applications/google-chrome.desktop .
-mv chrome/google-chrome .
-chmod a+x chrome/lib*.so*
+mv chrome%{?gcsuffix}/default-app-block .
+mv chrome%{?gcsuffix}/product_logo_*.{png,xpm} .
+mv usr/share/applications/google-chrome%{?gcsuffix}.desktop .
+mv chrome%{?gcsuffix}/google-chrome* .
+chmod a+x chrome%{?gcsuffix}/lib*.so*
 
 # separate to subpackage
 install -d browser-plugins
-mv chrome/libpdf.so browser-plugins
-mv chrome/PepperFlash browser-plugins
+mv chrome%{?gcsuffix}/libpdf.so browser-plugins
+mv chrome%{?gcsuffix}/PepperFlash browser-plugins
 chmod a+rx browser-plugins/PepperFlash/*.so
 
 # included in gnome-control-center-2.28.1-3
-rm default-app-block default-apps/google-chrome.xml
+rm default-app-block default-apps/google-chrome%{?gcsuffix}.xml
 
 # xdg-utils snapshot required
-rm chrome/xdg-settings
-rm chrome/xdg-mime
+rm chrome%{?gcsuffix}/xdg-settings
+rm chrome%{?gcsuffix}/xdg-mime
 
 [ -f *.1.gz ] && gzip -d *.1.gz
 
-%patch0 -p1
-
 %{__sed} -e 's,@localedir@,%{_libdir}/%{name},' %{SOURCE4} > find-lang.sh
-%{__sed} -i 's;/opt/google/chrome/product_logo_48.png;%{name}.png;' google-chrome.desktop
-%{__sed} -i 's;/opt/google/chrome;%{_bindir};' google-chrome.desktop
-%{__sed} -i 's#google-chrome-\(stable\|beta\|unstable\)#google-chrome#g' google-chrome.desktop
+%{__sed} -i 's;/opt/google/chrome/product_logo_48.png;%{name}.png;' google-chrome%{?gcsuffix}.desktop
+%{__sed} -i 's;/opt/google/chrome;%{_bindir};' google-chrome%{?gcsuffix}.desktop
+%{__sed} -i 's;xhtml_xml;xhtml+xml;' google-chrome%{?gcsuffix}.desktop
+%{__sed} -i 's#google-chrome-\(stable\|beta\|unstable\)#google-chrome#g' google-chrome%{?gcsuffix}.desktop
 
 %build
 v=$(awk -F'"' '/version/{print $4}' browser-plugins/PepperFlash/manifest.json)
@@ -175,11 +176,11 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/plugins,%{_mandir}/man1
 
 install -p %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}/%{name}
 %{__sed} -i -e 's,@libdir@,%{_libdir}/%{name},' $RPM_BUILD_ROOT%{_bindir}/%{name}
-cp -a chrome/* $RPM_BUILD_ROOT%{_libdir}/%{name}
-cp -p google-chrome.1 $RPM_BUILD_ROOT%{_mandir}/man1
+cp -a chrome%{?gcsuffix}/* $RPM_BUILD_ROOT%{_libdir}/%{name}
+cp -p google-chrome%{?gcsuffix}.1 $RPM_BUILD_ROOT%{_mandir}/man1/google-chrome.1
 # for google-chrome --help
 echo ".so google-chrome.1" > $RPM_BUILD_ROOT%{_mandir}/man1/chrome.1
-cp -p google-chrome.desktop $RPM_BUILD_ROOT%{_desktopdir}
+cp -p google-chrome%{?gcsuffix}.desktop $RPM_BUILD_ROOT%{_desktopdir}/google-chrome.desktop
 
 for icon in product_logo_*.png; do
 	size=${icon##product_logo_}
@@ -200,7 +201,7 @@ cp -a browser-plugins/* $RPM_BUILD_ROOT%{_browserpluginsdir}
 install -d $RPM_BUILD_ROOT/opt/google
 # see if CHROME_DEVEL_SANDBOX env var helps
 # content/browser/browser_main_loop.cc
-ln -s %{_libdir}/%{name} $RPM_BUILD_ROOT/opt/google/chrome
+ln -s %{_libdir}/%{name} $RPM_BUILD_ROOT/opt/google/chrome%{?gcsuffix}
 
 # official rpm just add libudev.so.0 -> libudev.so.1 symlink, so we use similar hack here
 if grep -qE "libudev\.so\.0" $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome; then
@@ -321,7 +322,7 @@ fi
 
 # hack
 %dir /opt/google
-/opt/google/chrome
+/opt/google/chrome%{?gcsuffix}
 
 %files l10n -f %{name}.lang
 %defattr(644,root,root,755)
