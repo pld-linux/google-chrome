@@ -172,7 +172,8 @@ echo "version=%{flashv}" > browser-plugins/PepperFlash/manifest.ver
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/plugins,%{_mandir}/man1,%{_desktopdir},%{_libdir}/%{name}/themes}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/{plugins,pepper},%{_mandir}/man1,%{_desktopdir},%{_libdir}/%{name}/themes} \
+	$RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
 
 install -p %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}/%{name}
 %{__sed} -i -e 's,@libdir@,%{_libdir}/%{name},' $RPM_BUILD_ROOT%{_bindir}/%{name}
@@ -298,6 +299,12 @@ fi
 %dir %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/locales/en-US.pak
 %dir %{_libdir}/%{name}/plugins
+# hardcoded list of pepper plugins chrome can load
+# see https://chromium.googlesource.com/chromium/chromium/+/trunk/chrome/common/chrome_paths.cc
+%dir %{_libdir}/%{name}/pepper
+# The path to the external extension <id>.json files.
+# see https://chromium.googlesource.com/chromium/chromium/+/trunk/chrome/common/chrome_paths.cc
+%{_datadir}/%{name}/extensions
 %{_libdir}/%{name}/default_apps
 %{_libdir}/%{name}/themes
 %attr(755,root,root) %{_libdir}/%{name}/chrome
