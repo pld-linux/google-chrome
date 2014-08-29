@@ -302,9 +302,10 @@ fi
 # hardcoded list of pepper plugins chrome can load
 # see https://chromium.googlesource.com/chromium/chromium/+/trunk/chrome/common/chrome_paths.cc
 %dir %{_libdir}/%{name}/pepper
+%dir %{_datadir}/%{name}
 # The path to the external extension <id>.json files.
 # see https://chromium.googlesource.com/chromium/chromium/+/trunk/chrome/common/chrome_paths.cc
-%{_datadir}/%{name}/extensions
+%dir %{_datadir}/%{name}/extensions
 %{_libdir}/%{name}/default_apps
 %{_libdir}/%{name}/themes
 %attr(755,root,root) %{_libdir}/%{name}/chrome
@@ -312,8 +313,10 @@ fi
 # These unique permissions are intentional and necessary for the sandboxing
 %attr(4555,root,root) %{_libdir}/%{name}/chrome-sandbox
 
+%if "%{state}" == "stable"
 # Native Client plugin, to use launch with --enable-nacl
 %attr(755,root,root) %{_libdir}/%{name}/libppGoogleNaClPluginChrome.so
+%endif
 
 # nacl
 %attr(755,root,root) %{_libdir}/%{name}/nacl_helper
