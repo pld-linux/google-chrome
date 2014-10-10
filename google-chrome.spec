@@ -10,15 +10,15 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	37.0.2062.120
+Version:	38.0.2125.101
 Release:	%{svnrev}%{?rel:.%{rel}}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
-# NoSource0-md5:	e686262a13645fb29f7d657e13a9bc30
+# NoSource0-md5:	d9b7646c8717e15273e76c5d815b12a1
 NoSource:	0
 Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
-# NoSource1-md5:	b73f7dd73eec35d4032a0e7e494fd577
+# NoSource1-md5:	77a0f0a89732a4883455793010842d34
 NoSource:	1
 Source2:	%{name}.sh
 Source4:	find-lang.sh
@@ -49,7 +49,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		ffmpeg_caps	libffmpegsumo.so
 %define		flash_caps	libpepflashplayer.so
-%define		chrome_caps	libpdf.so libppGoogleNaClPluginChrome.so
+%define		chrome_caps	libpdf.so
 
 # list of script capabilities (regexps) not to be used in Provides
 %define		_noautoprov		%{ffmpeg_caps} %{flash_caps} %{chrome_caps}
@@ -312,11 +312,6 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/lib/libpeerconnection.so
 # These unique permissions are intentional and necessary for the sandboxing
 %attr(4555,root,root) %{_libdir}/%{name}/chrome-sandbox
-
-%if "%{state}" == "stable"
-# Native Client plugin, to use launch with --enable-nacl
-%attr(755,root,root) %{_libdir}/%{name}/libppGoogleNaClPluginChrome.so
-%endif
 
 # nacl
 %attr(755,root,root) %{_libdir}/%{name}/nacl_helper
