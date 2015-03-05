@@ -10,15 +10,15 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	40.0.2214.115
+Version:	41.0.2272.76
 Release:	%{svnrev}%{?rel:.%{rel}}
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
-# NoSource0-md5:	fa25df5bebffdb46c93ce112ca5e8486
+# NoSource0-md5:	b2f791edd65e29e89f660b01ba80815d
 NoSource:	0
 Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
-# NoSource1-md5:	0dc993aba3b31716da559642259fd1ab
+# NoSource1-md5:	1a2b1ccb89c3a5ebf489bcd7b105b6fe
 NoSource:	1
 Source2:	%{name}.sh
 Source4:	find-lang.sh
@@ -296,6 +296,8 @@ fi
 %{_libdir}/%{name}/icudtl.dat
 %{_libdir}/%{name}/chrome_100_percent.pak
 %{_libdir}/%{name}/resources.pak
+%{_libdir}/%{name}/natives_blob.bin
+%{_libdir}/%{name}/snapshot_blob.bin
 %dir %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/locales/en-US.pak
 %dir %{_libdir}/%{name}/plugins
