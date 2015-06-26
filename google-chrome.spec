@@ -31,6 +31,8 @@ Requires:	browser-plugins >= 2.0
 Requires:	fonts-Type1-urw
 Requires:	hicolor-icon-theme
 Requires:	xdg-utils >= 1.0.2-4
+# https://www.phoronix.com/scan.php?page=news_item&px=Google-Chrome-TSYNC-Kernel
+Requires:	uname(release) >= 3.17
 Suggests:	browser-plugin-adobe-flash
 Provides:	wwwbrowser
 # add conflicts to trigger their update when main package is updated
