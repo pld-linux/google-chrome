@@ -1,5 +1,8 @@
 # NOTE
 # - to look and update to new version, use update-source.sh script
+#
+# Conditional build:
+%bcond_without	ffmpegsumo	# using ffmpegsumo
 
 %define		svnrev	1
 %define		flashv	18.0.0.194
@@ -285,7 +288,9 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/libwidevinecdmadapter.so
 
 # ffmpeg libs
+%if %{with ffmpegsumo}
 %attr(755,root,root) %{_libdir}/%{name}/libffmpegsumo.so
+%endif
 
 # hack
 %dir /opt/google
