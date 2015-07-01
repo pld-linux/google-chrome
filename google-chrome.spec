@@ -4,9 +4,7 @@
 # Conditional build:
 %bcond_without	ffmpegsumo	# using ffmpegsumo
 
-%define		svnrev	1
 %define		flashv	18.0.0.194
-#define		rel		%{nil}
 %define		state	stable
 %if "%{state}" == "beta" || "%{state}" == "unstable"
 %define		gcsuffix	-%{state}
@@ -14,13 +12,13 @@
 Summary:	Google Chrome
 Name:		google-chrome
 Version:	43.0.2357.130
-Release:	%{svnrev}%{?rel:.%{rel}}
+Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
-Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{svnrev}.i386.rpm
+Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{release}.i386.rpm
 # NoSource0-md5:	2c0618d02f1dbaa88a54e54afb5877e4
 NoSource:	0
-Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{svnrev}.x86_64.rpm
+Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{release}.x86_64.rpm
 # NoSource1-md5:	45e49393874e6d4ccfa00b5abe9d46db
 NoSource:	1
 Source2:	%{name}.sh
@@ -114,7 +112,7 @@ SOURCE=%{S:1}
 
 V=$(rpm -qp --nodigest --nosignature --qf '%{V}' $SOURCE)
 R=$(rpm -qp --nodigest --nosignature --qf '%{R}' $SOURCE)
-if [ version:$V != version:%{crver} -o svnrev:$R != svnrev:%{svnrev} ]; then
+if [ version:$V != version:%{crver} -o release:$R != release:%{release} ]; then
 	exit 1
 fi
 rpm2cpio $SOURCE | cpio -i -d

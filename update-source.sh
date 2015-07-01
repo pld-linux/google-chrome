@@ -49,18 +49,18 @@ perl -ne 'm{<name>google-'$product-$branch'</name>} and m{<version epoch="0" ver
 set -- $(sed -re "s,^.+-([^-]+)-([^-]+).$arch$,\1 \2," $t)
 
 ver=$1
-rev=$2
+rel=$2
 
 # check google-chrome ver only
-oldrev=$(awk '/^%define[ 	]+svnrev[ 	]+/{print $NF}' $specfile)
 oldver=$(awk '/^Version:[ \t]+/{print $NF; exit}' $specfile)
-if [ "$oldrev" = "$rev" -a "$oldver" = "$ver" ]; then
-	echo "Already up to date (google-chrome/$ver-$rev)"
+oldrel=$(awk '/^Release:[ \t]+/{print $NF; exit}' $specfile)
+if [ "$oldrel" = "$rel" -a "$oldver" = "$ver" ]; then
+	echo "Already up to date (google-chrome/$ver-$rel)"
 	exit 0
 fi
 
 # extract flash version
-rpm=$name-$branch-$ver-$rev.$arch.rpm
+rpm=$name-$branch-$ver-$rel.$arch.rpm
 manifest=manifest-$ver.json
 test -e $rpm || wget -c $sourceurl/$rpm
 test -e $manifest || {
@@ -77,17 +77,17 @@ rm -f "$t" "$manifest"
 
 # check google-chrome and flash ver
 oldflash=$(awk '/^%define[ 	]+flashv[ 	]+/{print $NF}' $specfile)
-if [ "$oldrev" = "$rev" -a "$oldver" = "$ver" -a "$oldflash" = "$flashv" ]; then
-	echo "Already up to date (google-chrome/$ver-$rev flash/$flashv)"
+if [ "$oldrel" = "$rel" -a "$oldver" = "$ver" -a "$oldflash" = "$flashv" ]; then
+	echo "Already up to date (google-chrome/$ver-$rel flash/$flashv)"
 	exit 0
 fi
 
-echo "Updating $specfile for google-chrome/$oldver-$oldrev -> $ver-$rev, flash/$oldflash -> $flashv"
+echo "Updating $specfile for google-chrome/$oldver-$oldrel -> $ver-$rel, flash/$oldflash -> $flashv"
 sed -i -e "
-	s/^\(%define[ \t]\+svnrev[ \t]\+\)[0-9]\+\$/\1$rev/
 	s/^\(%define[ \t]\+state[ \t]\+\)[a-z]\+\$/\1$branch/
 	s/^\(%define[ \t]\+flashv[ \t]\+\)[0-9.]\+\$/\1$flashv/
 	s/^\(Version:[ \t]\+\)[.0-9]\+\$/\1$ver/
+	s/^\(Release:[ \t]\+\)[.0-9]\+\$/\1$rel/
 " $specfile
 ../builder -ncs -nd -n5 -g $specfile || :
 ../builder -ncs -nd -5 $specfile
