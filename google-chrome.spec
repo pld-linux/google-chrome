@@ -255,8 +255,7 @@ fi
 
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/icudtl.dat
-%{_libdir}/%{name}/chrome_100_percent.pak
-%{_libdir}/%{name}/chrome_200_percent.pak
+%{_libdir}/%{name}/chrome_*_percent.pak
 %{_libdir}/%{name}/resources.pak
 %{_libdir}/%{name}/natives_blob.bin
 %{_libdir}/%{name}/snapshot_blob.bin
