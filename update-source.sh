@@ -51,6 +51,11 @@ set -- $(sed -re "s,^.+-([^-]+)-([^-]+).$arch$,\1 \2," $t)
 ver=$1
 rel=$2
 
+if [ -z "$ver" -o -z "$rel" ]; then
+	echo "Error: xml file is missing data for ${branch} type"
+	exit 1
+fi
+
 # check google-chrome ver only
 oldver=$(awk '/^Version:[ \t]+/{print $NF; exit}' $specfile)
 oldrel=$(awk '/^Release:[ \t]+/{print $NF; exit}' $specfile)
