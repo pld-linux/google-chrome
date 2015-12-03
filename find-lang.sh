@@ -35,6 +35,10 @@ while read file; do
 	es-419)
 		lang=es
 	;;
+	fake-bidi)
+		# ignore, testing locale: https://www.chromium.org/developers/testing/fake-bidi
+		continue
+	;;
 	*-*)
 		echo >&2 "$PROG: ERROR: Need mapping for language: $lang!"
 		rc=1
