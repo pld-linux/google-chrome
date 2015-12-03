@@ -36,7 +36,7 @@ while read file; do
 		lang=es
 	;;
 	*-*)
-		echo >&2 "ERROR: Need mapping for $lang!"
+		echo >&2 "$PROG: ERROR: Need mapping for language: $lang!"
 		rc=1
 	;;
 	esac
