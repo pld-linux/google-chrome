@@ -11,15 +11,15 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	48.0.2564.82
+Version:	48.0.2564.97
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{release}.i386.rpm
-# NoSource0-md5:	26a6123c1cd9a5696239fc6f4c8b8a65
+# NoSource0-md5:	4023a1e88f818f0af3d747399915bde0
 NoSource:	0
 Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource1-md5:	46321e8e22c0133c9b65cc12f238a3d1
+# NoSource1-md5:	93711d1b4e976ae6561d99f48f8f99b5
 NoSource:	1
 Source2:	%{name}.sh
 Source4:	find-lang.sh
@@ -261,6 +261,7 @@ fi
 %{_libdir}/%{name}/snapshot_blob.bin
 %dir %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/locales/en-US.pak
+%{_libdir}/%{name}/locales/fake-bidi.pak
 %dir %{_libdir}/%{name}/plugins
 # hardcoded list of pepper plugins chrome can load
 # see https://chromium.googlesource.com/chromium/chromium/+/trunk/chrome/common/chrome_paths.cc
