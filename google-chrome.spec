@@ -15,11 +15,11 @@ Version:	49.0.2623.75
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
-Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource1-md5:	7fbbebd3e1224557a3cf19bfbacf2984
-NoSource:	1
-Source2:	%{name}.sh
-Source4:	find-lang.sh
+Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{release}.x86_64.rpm
+# NoSource0-md5:	7fbbebd3e1224557a3cf19bfbacf2984
+NoSource:	0
+Source1:	%{name}.sh
+Source2:	find-lang.sh
 URL:		http://chrome.google.com/
 BuildRequires:	rpm-utils
 BuildRequires:	rpmbuild(macros) >= 1.453
@@ -100,12 +100,7 @@ Chromium.
 
 %prep
 %setup -qcT
-%ifarch %{ix86}
 SOURCE=%{S:0}
-%endif
-%ifarch %{x8664}
-SOURCE=%{S:1}
-%endif
 
 V=$(rpm -qp --nodigest --nosignature --qf '%{V}' $SOURCE)
 R=$(rpm -qp --nodigest --nosignature --qf '%{R}' $SOURCE)
@@ -137,7 +132,7 @@ rm chrome%{?gcsuffix}/xdg-mime
 
 [ -f *.1.gz ] && gzip -d *.1.gz
 
-%{__sed} -e 's,@localedir@,%{_libdir}/%{name},' %{SOURCE4} > find-lang.sh
+%{__sed} -e 's,@localedir@,%{_libdir}/%{name},' %{SOURCE2} > find-lang.sh
 %{__sed} -i 's;/opt/google/chrome/product_logo_48.png;%{name}.png;' google-chrome%{?gcsuffix}.desktop
 %{__sed} -i 's;/opt/google/chrome;%{_bindir};' google-chrome%{?gcsuffix}.desktop
 %{__sed} -i 's;xhtml_xml;xhtml+xml;' google-chrome%{?gcsuffix}.desktop
@@ -158,7 +153,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/{plugins,pepper},%{_mandir}/man1,%{_desktopdir},%{_libdir}/%{name}/themes} \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
 
-install -p %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}/%{name}
+install -p %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/%{name}
 %{__sed} -i -e 's,@libdir@,%{_libdir}/%{name},' $RPM_BUILD_ROOT%{_bindir}/%{name}
 cp -a chrome%{?gcsuffix}/* $RPM_BUILD_ROOT%{_libdir}/%{name}
 cp -p google-chrome%{?gcsuffix}.1 $RPM_BUILD_ROOT%{_mandir}/man1/google-chrome.1
