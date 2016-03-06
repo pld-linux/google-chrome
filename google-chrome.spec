@@ -11,15 +11,12 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	48.0.2564.116
+Version:	49.0.2623.75
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
-Source0:	http://dl.google.com/linux/chrome/rpm/stable/i386/%{name}-%{state}-%{version}-%{release}.i386.rpm
-# NoSource0-md5:	58e1b9ddda744852b04f0ec55ce9076f
-NoSource:	0
 Source1:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource1-md5:	05851e778d3c67d3f0324430d340c764
+# NoSource1-md5:	7fbbebd3e1224557a3cf19bfbacf2984
 NoSource:	1
 Source2:	%{name}.sh
 Source4:	find-lang.sh
@@ -38,7 +35,7 @@ Suggests:	browser-plugin-adobe-flash
 Provides:	wwwbrowser
 # add conflicts to trigger their update when main package is updated
 Conflicts:	browser-plugin-adobe-flash < %{flashv}-%{!?rel:1}%{?rel:%{rel}}
-ExclusiveArch:	%{ix86} %{x8664}
+ExclusiveArch:	 %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %{expand:%%define	crver %{version}}
