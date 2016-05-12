@@ -4,19 +4,19 @@
 # Conditional build:
 %bcond_with	ffmpegsumo	# using ffmpegsumo
 
-%define		flashv	21.0.0.216
+%define		flashv	21.0.0.242
 %define		state	stable
 %if "%{state}" == "beta" || "%{state}" == "unstable"
 %define		gcsuffix	-%{state}
 %endif
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	50.0.2661.94
+Version:	50.0.2661.102
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	5b4c921e43bc6fd077aeff305adcdd17
+# NoSource0-md5:	ef4c4a8d386130576e317299eee6af4f
 NoSource:	0
 Source1:	%{name}.sh
 Source2:	find-lang.sh
