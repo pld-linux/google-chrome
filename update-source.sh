@@ -41,7 +41,7 @@ t=$(mktemp)
 repodata=primary-$branch-$(date +%Y%m%d).xml
 [ "$cache" = "yes" ] || rm -f "$repodata"
 test -e $repodata || {
-	wget -c $sourceurl/repodata/primary.xml.gz -O $repodata.gz
+	wget $sourceurl/repodata/primary.xml.gz -O $repodata.gz
 	gzip -dc $repodata.gz > $repodata || test -s $repodata
 }
 perl -ne 'm{<name>google-'$product-$branch'</name>} and m{<version epoch="0" ver="([\d.]+)" rel="(\d+)"/>} and print "$1 $2"' > $t < $repodata
