@@ -1,5 +1,10 @@
 #!/bin/sh
 
+die() {
+	echo >&2 "$0: $*"
+	exit 1
+}
+
 if [ "$1" = "-k" ]; then
 	cache=yes
 	shift
@@ -22,8 +27,7 @@ case "${branch}" in
 	stable|beta|unstable)
 		;;
 	*)
-		echo "$0: Unknown branch: $branch. Supported branches: stable, beta, unstable." >&2
-		exit 1
+		die "Unknown branch: $branch. Supported branches: stable, beta, unstable."
 		;;
 esac
 
@@ -52,8 +56,7 @@ ver=$1
 rel=$2
 
 if [ -z "$ver" -o -z "$rel" ]; then
-	echo "Error: xml file is missing data for ${branch} type"
-	exit 1
+	die "Error: xml file is missing data for ${branch} type"
 fi
 
 # check google-chrome ver only
@@ -72,8 +75,7 @@ test -e $manifest || {
 	echo ./opt/google/chrome*/PepperFlash/manifest.json > $t
 	rpm2cpio $rpm | cpio -i -E $t --to-stdout > manifest-$ver.json
 	if [ ! -s manifest-$ver.json ]; then
-		echo "Failed to extract flash version."
-		exit 1
+		die "Failed to extract flash version."
 	fi
 }
 flashv=$(awk -F'"' '/version/{print $4}' manifest-$ver.json)
