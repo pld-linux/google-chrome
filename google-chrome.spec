@@ -133,8 +133,6 @@ for icon in product_logo_*.png; do
 	cp -p $icon $RPM_BUILD_ROOT%{_iconsdir}/hicolor/${size}x${size}/apps/%{name}.png
 done
 
-install -d $RPM_BUILD_ROOT%{_browserpluginsdir}
-
 %browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/plugins
 
 # binary needs to be at that specific location, or it will abort:
@@ -144,14 +142,6 @@ install -d $RPM_BUILD_ROOT/opt/google
 # see if CHROME_DEVEL_SANDBOX env var helps
 # content/browser/browser_main_loop.cc
 ln -s %{_libdir}/%{name} $RPM_BUILD_ROOT/opt/google/chrome%{?gcsuffix}
-
-# official rpm just add libudev.so.0 -> libudev.so.1 symlink, so we use similar hack here
-if grep -qE "libudev\.so\.0" $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome; then
-	%{__sed} -i -e 's#libudev\.so\.0#libudev.so.1#g' $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome
-else
-	echo "Hack no longer needed? No longer linked with libudev.so.0 ?" >&2
-	exit 1
-fi
 
 # find locales
 %find_lang %{name}.lang
