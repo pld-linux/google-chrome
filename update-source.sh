@@ -67,32 +67,15 @@ if [ "$oldrel" = "$rel" -a "$oldver" = "$ver" ]; then
 	exit 0
 fi
 
-# extract flash version
-rpm=$name-$branch-$ver-$rel.$arch.rpm
-manifest=manifest-$ver.json
-test -e $rpm || wget -c $sourceurl/$rpm
-test -e $manifest || {
-	echo ./opt/google/chrome*/PepperFlash/manifest.json > $t
-	rpm2cpio $rpm | cpio -i -E $t --to-stdout > manifest-$ver.json
-	if [ ! -s manifest-$ver.json ]; then
-		die "Failed to extract flash version."
-	fi
-}
-flashv=$(awk -F'"' '/version/{print $4}' manifest-$ver.json)
-
-rm -f "$t" "$manifest"
-
-# check google-chrome and flash ver
-oldflash=$(awk '/^%define[ 	]+flashv[ 	]+/{print $NF}' $specfile)
-if [ "$oldrel" = "$rel" -a "$oldver" = "$ver" -a "$oldflash" = "$flashv" ]; then
-	echo "Already up to date (google-chrome/$ver-$rel flash/$flashv)"
+# check google-chrome
+if [ "$oldrel" = "$rel" -a "$oldver" = "$ver" ]; then
+	echo "Already up to date (google-chrome/$ver-$rel)"
 	exit 0
 fi
 
-echo "Updating $specfile for google-chrome/$oldver-$oldrel -> $ver-$rel, flash/$oldflash -> $flashv"
+echo "Updating $specfile for google-chrome/$oldver-$oldrel -> $ver-$rel"
 sed -i -e "
 	s/^\(%define[ \t]\+state[ \t]\+\)[a-z]\+\$/\1$branch/
-	s/^\(%define[ \t]\+flashv[ \t]\+\)[0-9.]\+\$/\1$flashv/
 	s/^\(Version:[ \t]\+\)[.0-9]\+\$/\1$ver/
 	s/^\(Release:[ \t]\+\)[.0-9]\+\$/\1$rel/
 " $specfile

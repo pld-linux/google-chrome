@@ -4,19 +4,18 @@
 # Conditional build:
 %bcond_with	ffmpegsumo	# using ffmpegsumo
 
-%define		flashv	23.0.0.162
 %define		state	stable
 %if "%{state}" == "beta" || "%{state}" == "unstable"
 %define		gcsuffix	-%{state}
 %endif
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	53.0.2785.143
+Version:	54.0.2840.59
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	727d00e588e481f3cbf6434d8198d1cc
+# NoSource0-md5:	01f36f1538081b29f68ffd345e662b61
 NoSource:	0
 Source1:	%{name}.sh
 Source2:	find-lang.sh
@@ -32,10 +31,7 @@ Requires:	hicolor-icon-theme
 # https://www.phoronix.com/scan.php?page=news_item&px=Google-Chrome-TSYNC-Kernel
 Requires:	uname(release) >= 3.17
 Requires:	xdg-utils >= 1.0.2-4
-Suggests:	browser-plugin-adobe-flash
 Provides:	wwwbrowser
-# add conflicts to trigger their update when main package is updated
-Conflicts:	browser-plugin-adobe-flash < %{flashv}-%{!?rel:1}%{?rel:%{rel}}
 ExclusiveArch:	 %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -47,10 +43,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		no_install_post_strip	1
 
 %define		ffmpeg_caps	libffmpegsumo.so
-%define		flash_caps	libpepflashplayer.so
 
 # list of script capabilities (regexps) not to be used in Provides
-%define		_noautoprov		%{ffmpeg_caps} %{flash_caps}
+%define		_noautoprov		%{ffmpeg_caps}
 # do not require them either
 %define		_noautoreq		%{_noautoprov}
 
@@ -80,25 +75,6 @@ he, hi, hr, hu, id, it, ja, kn, ko, lt, lv, ml, mr, nb, nl, or, pl,
 pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, ta, te, th, tr, uk, vi, zh-CN,
 zh-TW
 
-# IMPORTANT: keep flash plugin defined as last package
-%package -n browser-plugin-adobe-flash
-Summary:	Adobe Flash plugin from Google Chrome
-Summary(pl.UTF-8):	Wtyczka Adobe Flash z Google Chrome
-Version:	%{flashv}
-Release:	%{!?rel:1}%{?rel:%{rel}}
-License:	Free to use, non-distributable
-Group:		X11/Applications/Multimedia
-Requires:	browser-plugins >= 2.0
-Conflicts:	google-chrome < 19.0.1084.52
-
-%description -n browser-plugin-adobe-flash
-Adobe Flash plugin from Google Chrome, which is not available in
-Chromium.
-
-%description -n browser-plugin-adobe-flash -l pl.UTF-8
-Wtyczka Adobe Flash z Google Chrome, która nie jest dostępna w
-Chromium.
-
 %prep
 %setup -qcT
 SOURCE=%{S:0}
@@ -119,11 +95,6 @@ mv usr/share/applications/google-chrome%{?gcsuffix}.desktop .
 mv chrome%{?gcsuffix}/google-chrome* .
 chmod a+x chrome%{?gcsuffix}/lib*.so*
 
-# separate to subpackage
-install -d browser-plugins
-mv chrome%{?gcsuffix}/PepperFlash browser-plugins
-chmod a+rx browser-plugins/PepperFlash/*.so
-
 # included in gnome-control-center-2.28.1-3
 rm default-app-block default-apps/google-chrome%{?gcsuffix}.xml
 
@@ -140,18 +111,10 @@ rm chrome%{?gcsuffix}/xdg-mime
 %{__sed} -i 's#google-chrome-\(stable\|beta\|unstable\)#google-chrome#g' google-chrome%{?gcsuffix}.desktop
 
 %build
-v=$(awk -F'"' '/version/{print $4}' browser-plugins/PepperFlash/manifest.json)
-if [ "$v" != "%{flashv}" ]; then
-	: wrong version
-	exit 1
-fi
-
-# create extra file, for simplier scripting in chromium-browser.sh
-echo "version=%{flashv}" > browser-plugins/PepperFlash/manifest.ver
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/{plugins,pepper},%{_mandir}/man1,%{_desktopdir},%{_libdir}/%{name}/themes} \
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/plugins,%{_mandir}/man1,%{_desktopdir},%{_libdir}/%{name}/themes} \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
 
 install -p %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/%{name}
@@ -171,7 +134,6 @@ for icon in product_logo_*.png; do
 done
 
 install -d $RPM_BUILD_ROOT%{_browserpluginsdir}
-cp -a browser-plugins/* $RPM_BUILD_ROOT%{_browserpluginsdir}
 
 %browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/plugins
 
@@ -209,32 +171,6 @@ if [ "$1" = 0 ]; then
 	%update_browser_plugins
 fi
 
-%post -n browser-plugin-adobe-flash
-%update_browser_plugins
-
-%postun -n browser-plugin-adobe-flash
-if [ "$1" = 0 ]; then
-	%update_browser_plugins
-fi
-
-# FIXME: chrome *needs* it to be in application dir. add symlink until it can load from other places
-# FIXME: link PepperFlash, browser-plugins ignores subdirs, and currently nothing else than chrome browsers can do pepper
-%triggerin -n browser-plugin-adobe-flash -- google-chrome
-test -L %{_libdir}/%{name}/PepperFlash || ln -sf %{_browserpluginsdir}/PepperFlash %{_libdir}/%{name}/PepperFlash
-
-%triggerun -n browser-plugin-adobe-flash -- google-chrome
-if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/%{name}/PepperFlash ]; then
-	rm -f %{_libdir}/%{name}/PepperFlash
-fi
-
-%triggerin -n browser-plugin-adobe-flash -- chromium-browser-bin
-test -L %{_libdir}/chromium-browser-bin/PepperFlash || ln -sf %{_browserpluginsdir}/PepperFlash %{_libdir}/chromium-browser-bin/PepperFlash
-
-%triggerun -n browser-plugin-adobe-flash -- chromium-browser-bin
-if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/chromium-browser-bin/PepperFlash ]; then
-	rm -f %{_libdir}/chromium-browser-bin/PepperFlash
-fi
-
 %files
 %defattr(644,root,root,755)
 
@@ -256,9 +192,6 @@ fi
 %{_libdir}/%{name}/locales/en-US.pak
 %{_libdir}/%{name}/locales/fake-bidi.pak
 %dir %{_libdir}/%{name}/plugins
-# hardcoded list of pepper plugins chrome can load
-# see https://chromium.googlesource.com/chromium/chromium/+/trunk/chrome/common/chrome_paths.cc
-%dir %{_libdir}/%{name}/pepper
 %dir %{_datadir}/%{name}
 # The path to the external extension <id>.json files.
 # see https://chromium.googlesource.com/chromium/chromium/+/trunk/chrome/common/chrome_paths.cc
@@ -289,10 +222,3 @@ fi
 
 %files l10n -f %{name}.lang
 %defattr(644,root,root,755)
-
-%files -n browser-plugin-adobe-flash
-%defattr(644,root,root,755)
-%dir %{_browserpluginsdir}/PepperFlash
-%{_browserpluginsdir}/PepperFlash/manifest.json
-%{_browserpluginsdir}/PepperFlash/manifest.ver
-%attr(755,root,root) %{_browserpluginsdir}/PepperFlash/libpepflashplayer.so
