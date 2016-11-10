@@ -31,7 +31,7 @@ case "${branch}" in
 		;;
 esac
 
-sourceurl=http://dl.google.com/linux/$product/rpm/stable/$arch
+sourceurl=https://dl.google.com/linux/$product/rpm/stable/$arch
 
 set -e
 
