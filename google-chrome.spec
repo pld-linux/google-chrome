@@ -10,12 +10,12 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	54.0.2840.100
+Version:	55.0.2883.75
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	34e8ade9e0ba96662da678786abe46ca
+# NoSource0-md5:	0ff7f56eca4929c2ffff1e91b7d579cf
 NoSource:	0
 Source1:	%{name}.sh
 Source2:	find-lang.sh
@@ -180,7 +180,7 @@ fi
 %{_libdir}/%{name}/snapshot_blob.bin
 %dir %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/locales/en-US.pak
-%{_libdir}/%{name}/locales/fake-bidi.pak
+#%{_libdir}/%{name}/locales/fake-bidi.pak
 %dir %{_libdir}/%{name}/plugins
 %dir %{_datadir}/%{name}
 # The path to the external extension <id>.json files.
