@@ -118,6 +118,8 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/plugins,%{_mandir}/man1
 	$RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
 
 install -p %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/%{name}
+sed -i -e 's#RPM_STATE#%{state}#g' $RPM_BUILD_ROOT%{_bindir}/%{name}
+
 %{__sed} -i -e 's,@libdir@,%{_libdir}/%{name},' $RPM_BUILD_ROOT%{_bindir}/%{name}
 cp -a chrome%{?gcsuffix}/* $RPM_BUILD_ROOT%{_libdir}/%{name}
 cp -p google-chrome%{?gcsuffix}.1 $RPM_BUILD_ROOT%{_mandir}/man1/google-chrome.1
