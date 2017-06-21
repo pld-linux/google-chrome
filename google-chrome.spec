@@ -10,12 +10,12 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	59.0.3071.86
+Version:	59.0.3071.109
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	826a760bfbba828cf3e01c41c50bd4bd
+# NoSource0-md5:	6bc6a1264cb3376c5651b036ae7191d0
 NoSource:	0
 Source1:	%{name}.sh
 Source2:	find-lang.sh
