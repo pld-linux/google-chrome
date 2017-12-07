@@ -10,12 +10,12 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	62.0.3202.94
+Version:	63.0.3239.84
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	2ce9a63d54ae18fdd096b7fc6206b872
+# NoSource0-md5:	e66112b70287b47bdb99be56877fa4a6
 NoSource:	0
 Source1:	%{name}.sh
 Source2:	find-lang.sh
@@ -122,7 +122,7 @@ sed -i -e 's#RPM_STATE#%{state}#g' $RPM_BUILD_ROOT%{_bindir}/%{name}
 
 %{__sed} -i -e 's,@libdir@,%{_libdir}/%{name},' $RPM_BUILD_ROOT%{_bindir}/%{name}
 cp -a chrome%{?gcsuffix}/* $RPM_BUILD_ROOT%{_libdir}/%{name}
-cp -p google-chrome%{?gcsuffix}.1 $RPM_BUILD_ROOT%{_mandir}/man1/google-chrome.1
+cp -p google-chrome%{?gcsuffix}.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/google-chrome.1.gz
 # for google-chrome --help
 echo ".so google-chrome.1" > $RPM_BUILD_ROOT%{_mandir}/man1/chrome.1
 cp -p google-chrome%{?gcsuffix}.desktop $RPM_BUILD_ROOT%{_desktopdir}/google-chrome.desktop
@@ -180,6 +180,7 @@ fi
 %{_libdir}/%{name}/resources.pak
 %{_libdir}/%{name}/natives_blob.bin
 %{_libdir}/%{name}/snapshot_blob.bin
+%{_libdir}/%{name}/v8_context_snapshot.bin
 %dir %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/locales/en-US.pak
 #%{_libdir}/%{name}/locales/fake-bidi.pak
