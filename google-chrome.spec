@@ -102,7 +102,11 @@ rm default-app-block default-apps/google-chrome%{?gcsuffix}.xml
 rm chrome%{?gcsuffix}/xdg-settings
 rm chrome%{?gcsuffix}/xdg-mime
 
-[ -f *.1.gz ] && gzip -d *.1.gz
+if [ -n "$(ls *.1.gz)" ]; then
+	for file in *.1.gz; do
+		[ -f "$file" ] && gzip -d "$file"
+	done
+fi
 
 %{__sed} -e 's,@localedir@,%{_libdir}/%{name},' %{SOURCE2} > find-lang.sh
 %{__sed} -i 's;/opt/google/chrome/product_logo_48.png;%{name}.png;' google-chrome%{?gcsuffix}.desktop
@@ -122,7 +126,7 @@ sed -i -e 's#RPM_STATE#%{state}#g' $RPM_BUILD_ROOT%{_bindir}/%{name}
 
 %{__sed} -i -e 's,@libdir@,%{_libdir}/%{name},' $RPM_BUILD_ROOT%{_bindir}/%{name}
 cp -a chrome%{?gcsuffix}/* $RPM_BUILD_ROOT%{_libdir}/%{name}
-cp -p google-chrome%{?gcsuffix}.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/google-chrome.1.gz
+cp -p google-chrome-%{state}.1 $RPM_BUILD_ROOT%{_mandir}/man1/google-chrome.1
 # for google-chrome --help
 echo ".so google-chrome.1" > $RPM_BUILD_ROOT%{_mandir}/man1/chrome.1
 cp -p google-chrome%{?gcsuffix}.desktop $RPM_BUILD_ROOT%{_desktopdir}/google-chrome.desktop
@@ -130,6 +134,7 @@ cp -p google-chrome%{?gcsuffix}.desktop $RPM_BUILD_ROOT%{_desktopdir}/google-chr
 for icon in product_logo_*.png; do
 	size=${icon##product_logo_}
 	size=${size%.png}
+	size=${size%_%{state}}
 
 	install -d $RPM_BUILD_ROOT%{_iconsdir}/hicolor/${size}x${size}/apps
 	cp -p $icon $RPM_BUILD_ROOT%{_iconsdir}/hicolor/${size}x${size}/apps/%{name}.png
@@ -175,6 +180,9 @@ fi
 %{_iconsdir}/hicolor/*/apps/%{name}.png
 
 %dir %{_libdir}/%{name}
+%if "%{state}" == "beta"
+%{_libdir}/%{name}/MEIPreload
+%endif
 %{_libdir}/%{name}/icudtl.dat
 %{_libdir}/%{name}/chrome_*_percent.pak
 %{_libdir}/%{name}/resources.pak
