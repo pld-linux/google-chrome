@@ -10,12 +10,12 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	64.0.3282.186
+Version:	65.0.3325.146
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	faeb97b00259e56bbb87cb8528652dcf
+# NoSource0-md5:	d5400c8261c62e0f01b10ff6cfd6aa6d
 NoSource:	0
 Source1:	%{name}.sh
 Source2:	find-lang.sh
@@ -180,9 +180,7 @@ fi
 %{_iconsdir}/hicolor/*/apps/%{name}.png
 
 %dir %{_libdir}/%{name}
-%if "%{state}" == "beta"
 %{_libdir}/%{name}/MEIPreload
-%endif
 %{_libdir}/%{name}/icudtl.dat
 %{_libdir}/%{name}/chrome_*_percent.pak
 %{_libdir}/%{name}/resources.pak
