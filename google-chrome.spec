@@ -10,12 +10,12 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome
-Version:	66.0.3359.181
+Version:	67.0.3396.62
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	13c5681f2d834e17fdbde06414fc8dab
+# NoSource0-md5:	ab6c1b66083da9118e363593099a4d84
 NoSource:	0
 Source1:	%{name}.sh
 Source2:	find-lang.sh
@@ -207,7 +207,6 @@ fi
 
 # DRM
 %attr(755,root,root) %{_libdir}/%{name}/libwidevinecdm.so
-%attr(755,root,root) %{_libdir}/%{name}/libwidevinecdmadapter.so
 
 # replace with mesa symlinks?
 %dir %{_libdir}/%{name}/swiftshader
