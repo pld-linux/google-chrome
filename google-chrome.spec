@@ -9,15 +9,15 @@
 %define		gcsuffix	-%{state}
 %endif
 Summary:	Google Chrome
-Name:		google-chrome
+Name:		google-chrome%{?gcsuffix}
 Version:	67.0.3396.99
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
-Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/%{name}-%{state}-%{version}-%{release}.x86_64.rpm
+Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/google-chrome-%{state}-%{version}-%{release}.x86_64.rpm
 # NoSource0-md5:	f79f9fbf505428673901678c7f2125b9
 NoSource:	0
-Source1:	%{name}.sh
+Source1:	google-chrome.sh
 Source2:	find-lang.sh
 URL:		http://chrome.google.com/
 BuildRequires:	rpm-utils
@@ -126,10 +126,10 @@ sed -i -e 's#RPM_STATE#%{state}#g' $RPM_BUILD_ROOT%{_bindir}/%{name}
 
 %{__sed} -i -e 's,@libdir@,%{_libdir}/%{name},' $RPM_BUILD_ROOT%{_bindir}/%{name}
 cp -a chrome%{?gcsuffix}/* $RPM_BUILD_ROOT%{_libdir}/%{name}
-cp -p google-chrome-%{state}.1 $RPM_BUILD_ROOT%{_mandir}/man1/google-chrome.1
+cp -p google-chrome-%{state}.1 $RPM_BUILD_ROOT%{_mandir}/man1/google-chrome%{?gcsuffix}.1
 # for google-chrome --help
-echo ".so google-chrome.1" > $RPM_BUILD_ROOT%{_mandir}/man1/chrome.1
-cp -p google-chrome%{?gcsuffix}.desktop $RPM_BUILD_ROOT%{_desktopdir}/google-chrome.desktop
+echo ".so google-chrome%{?gcsuffix}.1" > $RPM_BUILD_ROOT%{_mandir}/man1/chrome%{?gcsuffix}.1
+cp -p google-chrome%{?gcsuffix}.desktop $RPM_BUILD_ROOT%{_desktopdir}/google-chrome%{?gcsuffix}.desktop
 
 for icon in product_logo_*.png; do
 	size=${icon##product_logo_}
