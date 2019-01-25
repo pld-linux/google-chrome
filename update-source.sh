@@ -35,25 +35,34 @@ sourceurl=https://dl.google.com/linux/$product/rpm/stable/$arch
 
 set -e
 
-echo -n "Fetching latest version... "
-t=$(mktemp)
+fetch_version() {
+	echo -n "Fetching latest version... "
+	t=$(mktemp)
 
-# poldek is buggy, see https://bugs.launchpad.net/poldek/+bug/1026762
-#poldek -q --st=metadata --source "$sourceurl/" --update
-#poldek -q --skip-installed --st=metadata --source "$sourceurl/" --cmd "ls google-chrome-$branch" > $t
+	# poldek is buggy, see https://bugs.launchpad.net/poldek/+bug/1026762
+	#poldek -q --st=metadata --source "$sourceurl/" --update
+	#poldek -q --skip-installed --st=metadata --source "$sourceurl/" --cmd "ls google-chrome-$branch" > $t
 
-repodata=primary-$branch-$(date +%Y%m%d).xml
-[ "$cache" = "yes" ] || rm -f "$repodata"
-test -e $repodata || {
-	wget $sourceurl/repodata/primary.xml.gz -O $repodata.gz
-	gzip -dc $repodata.gz > $repodata || test -s $repodata
+	repodata=primary-$branch-$(date +%Y%m%d).xml
+	[ "$cache" = "yes" ] || rm -f "$repodata"
+	test -e $repodata || {
+		wget $sourceurl/repodata/primary.xml.gz -O $repodata.gz
+		gzip -dc $repodata.gz > $repodata || test -s $repodata
+	}
+	perl -ne 'm{<name>google-'$product-$branch'</name>} and m{<version epoch="0" ver="([\d.]+)" rel="(\d+)"/>} and print "$1 $2"' > $t < $repodata
+
+	set -- $(sed -re "s,^.+-([^-]+)-([^-]+).$arch$,\1 \2," $t)
+
+	ver=$1
+	rel=$2
 }
-perl -ne 'm{<name>google-'$product-$branch'</name>} and m{<version epoch="0" ver="([\d.]+)" rel="(\d+)"/>} and print "$1 $2"' > $t < $repodata
 
-set -- $(sed -re "s,^.+-([^-]+)-([^-]+).$arch$,\1 \2," $t)
-
-ver=$1
-rel=$2
+if [ -n "$2" ];  then
+	ver=$2
+	rel=1
+else
+	fetch_version
+fi
 
 if [ -z "$ver" -o -z "$rel" ]; then
 	die "Error: xml file is missing data for ${branch} type"
