@@ -10,12 +10,12 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome%{?gcsuffix}
-Version:	77.0.3865.75
+Version:	78.0.3904.97
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/google-chrome-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	d6b67cd4f7bfd612400e55d701c96ae6
+# NoSource0-md5:	9226ba7e1a2e9ea0283621dd67223cbe
 NoSource:	0
 Source1:	google-chrome.sh
 Source2:	find-lang.sh
@@ -93,6 +93,7 @@ mv chrome%{?gcsuffix}/default-app-block .
 mv chrome%{?gcsuffix}/product_logo_*.{png,xpm} .
 mv usr/share/applications/google-chrome%{?gcsuffix}.desktop .
 mv chrome%{?gcsuffix}/google-chrome* .
+mv chrome%{?gcsuffix}/WidevineCdm/_platform_specific/linux_x64/libwidevinecdm.so chrome%{?gcsuffix}/
 chmod a+x chrome%{?gcsuffix}/lib*.so*
 
 # included in gnome-control-center-2.28.1-3
