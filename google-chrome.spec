@@ -10,12 +10,12 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome%{?gcsuffix}
-Version:	78.0.3904.97
+Version:	79.0.3945.79
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/google-chrome-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	9226ba7e1a2e9ea0283621dd67223cbe
+# NoSource0-md5:	15248b28b4d16d9f2b79fdfe4083e1b3
 NoSource:	0
 Source1:	google-chrome.sh
 Source2:	find-lang.sh
@@ -201,6 +201,8 @@ fi
 # These unique permissions are intentional and necessary for the sandboxing
 %attr(4555,root,root) %{_libdir}/%{name}/chrome-sandbox
 
+%attr(755,root,root) %{_libdir}/%{name}/crashpad_handler
+
 # nacl
 %attr(755,root,root) %{_libdir}/%{name}/nacl_helper
 %attr(755,root,root) %{_libdir}/%{name}/nacl_helper_bootstrap
@@ -218,6 +220,8 @@ fi
 %if %{with ffmpegsumo}
 %attr(755,root,root) %{_libdir}/%{name}/libffmpegsumo.so
 %endif
+
+%{_libdir}/%{name}/WidevineCdm
 
 # hack
 %dir /opt/google
