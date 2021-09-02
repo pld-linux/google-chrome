@@ -10,12 +10,12 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome%{?gcsuffix}
-Version:	92.0.4515.107
+Version:	93.0.4577.63
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/google-chrome-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	5dd40553edb6dde765eb0fce9a300cad
+# NoSource0-md5:	13cd95a6f0672599d891401d93b0cb35
 NoSource:	0
 Source1:	google-chrome.sh
 Source2:	find-lang.sh
@@ -188,6 +188,7 @@ fi
 %{_libdir}/%{name}/v8_context_snapshot.bin
 %{_libdir}/%{name}/libEGL.so
 %{_libdir}/%{name}/libGLESv2.so
+%{_libdir}/%{name}/libvulkan.so.1
 %dir %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/locales/en-US.pak
 #%{_libdir}/%{name}/locales/fake-bidi.pak
