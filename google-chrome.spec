@@ -10,12 +10,12 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome%{?gcsuffix}
-Version:	93.0.4577.63
+Version:	94.0.4606.54
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/google-chrome-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	13cd95a6f0672599d891401d93b0cb35
+# NoSource0-md5:	b47c7b6de9bd1cbbcd0509d34497f0c7
 NoSource:	0
 Source1:	google-chrome.sh
 Source2:	find-lang.sh
@@ -203,7 +203,7 @@ fi
 # These unique permissions are intentional and necessary for the sandboxing
 %attr(4555,root,root) %{_libdir}/%{name}/chrome-sandbox
 
-%attr(755,root,root) %{_libdir}/%{name}/crashpad_handler
+%attr(755,root,root) %{_libdir}/%{name}/chrome_crashpad_handler
 
 # nacl
 %attr(755,root,root) %{_libdir}/%{name}/nacl_helper
