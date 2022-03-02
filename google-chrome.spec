@@ -10,12 +10,12 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome%{?gcsuffix}
-Version:	98.0.4758.80
+Version:	99.0.4844.51
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/google-chrome-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	b10a4a6bdca069669a5402f35b6f4e2c
+# NoSource0-md5:	095c624d0e77c99c07415cd1b8694b37
 NoSource:	0
 Source1:	google-chrome.sh
 Source2:	find-lang.sh
@@ -188,6 +188,7 @@ fi
 %{_libdir}/%{name}/v8_context_snapshot.bin
 %{_libdir}/%{name}/libEGL.so
 %{_libdir}/%{name}/libGLESv2.so
+%{_libdir}/google-chrome/liboptimization_guide_internal.so
 %{_libdir}/%{name}/libvulkan.so.1
 %dir %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/locales/en-US.pak
