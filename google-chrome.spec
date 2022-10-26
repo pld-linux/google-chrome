@@ -10,12 +10,12 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome%{?gcsuffix}
-Version:	106.0.5249.119
+Version:	107.0.5304.68
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/google-chrome-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	c8edf51b1412678f6ae51aa074eb42fc
+# NoSource0-md5:	23d7cfd2a7ce4d4a2e8837df5b8fc663
 NoSource:	0
 Source1:	google-chrome.sh
 Source2:	find-lang.sh
@@ -184,12 +184,13 @@ fi
 %{_libdir}/%{name}/MEIPreload
 %{_libdir}/%{name}/icudtl.dat
 %{_libdir}/%{name}/chrome_*_percent.pak
-%{_libdir}/google-chrome/chrome-management-service
+%{_libdir}/%{name}/chrome-management-service
 %{_libdir}/%{name}/resources.pak
 %{_libdir}/%{name}/v8_context_snapshot.bin
 %{_libdir}/%{name}/libEGL.so
 %{_libdir}/%{name}/libGLESv2.so
-%{_libdir}/google-chrome/liboptimization_guide_internal.so
+%{_libdir}/%{name}/liboptimization_guide_internal.so
+%{_libdir}/%{name}/libqt5_shim.so
 %{_libdir}/%{name}/libvulkan.so.1
 %dir %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/locales/en-US.pak
@@ -224,7 +225,6 @@ fi
 %{_libdir}/%{name}/vk_swiftshader_icd.json
 
 %{_libdir}/%{name}/WidevineCdm
-
 # hack
 %dir /opt/google
 /opt/google/chrome%{?gcsuffix}
