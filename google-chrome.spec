@@ -10,12 +10,12 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome%{?gcsuffix}
-Version:	127.0.6533.119
+Version:	128.0.6613.119
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/google-chrome-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	2ba0049dd11bda3b093776864ebebff8
+# NoSource0-md5:	55d6faef8c0174c21fc03c89d8d174b8
 NoSource:	0
 Source1:	google-chrome.sh
 Source2:	find-lang.sh
@@ -204,6 +204,9 @@ fi
 %dir %{_datadir}/%{name}/extensions
 %{_libdir}/%{name}/default_apps
 %{_libdir}/%{name}/themes
+%dir %{_libdir}/google-chrome/PrivacySandboxAttestationsPreloaded
+%{_libdir}/google-chrome/PrivacySandboxAttestationsPreloaded/manifest.json
+%{_libdir}/google-chrome/PrivacySandboxAttestationsPreloaded/privacy-sandbox-attestations.dat
 %attr(755,root,root) %{_libdir}/%{name}/chrome
 # These unique permissions are intentional and necessary for the sandboxing
 %attr(4555,root,root) %{_libdir}/%{name}/chrome-sandbox
