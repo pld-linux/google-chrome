@@ -10,12 +10,12 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome%{?gcsuffix}
-Version:	137.0.7151.68
+Version:	138.0.7204.49
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/google-chrome-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	d45075de1a8d03b08818fcfab2bb1b98
+# NoSource0-md5:	1b1d1a5a22104281ebc04c0b1a007bf6
 NoSource:	0
 Source1:	google-chrome.sh
 Source2:	find-lang.sh
