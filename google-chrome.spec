@@ -10,12 +10,12 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome%{?gcsuffix}
-Version:	148.0.7778.215
+Version:	149.0.7827.53
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/google-chrome-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	17e2147c0e03c607ed8cc213d6d55b6b
+# NoSource0-md5:	60421cd07307ce7a9f9964b922899d35
 NoSource:	0
 Source1:	google-chrome.sh
 Source2:	find-lang.sh
@@ -183,6 +183,7 @@ fi
 %{_iconsdir}/hicolor/*/apps/%{name}.png
 
 %dir %{_libdir}/%{name}
+%{_libdir}/%{name}/apparmor.d
 %{_libdir}/%{name}/CHROME_VERSION_EXTRA
 %{_libdir}/%{name}/MEIPreload
 %{_libdir}/%{name}/icudtl.dat
