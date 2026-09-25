@@ -10,12 +10,12 @@
 %endif
 Summary:	Google Chrome
 Name:		google-chrome%{?gcsuffix}
-Version:	152.0.7977.75
+Version:	154.0.8037.57
 Release:	1
 License:	Multiple, see http://chrome.google.com/
 Group:		Applications/Networking
 Source0:	http://dl.google.com/linux/chrome/rpm/stable/x86_64/google-chrome-%{state}-%{version}-%{release}.x86_64.rpm
-# NoSource0-md5:	2fe8a2d92065a016196af1bc8f420417
+# NoSource0-md5:	9496a21b006aae4dcf3cd4c0ace9b7e8
 NoSource:	0
 Source1:	google-chrome.sh
 Source2:	find-lang.sh
@@ -219,14 +219,14 @@ fi
 #%attr(755,root,root) %{_libdir}/%{name}/nacl_irt_x86_*.nexe
 
 # DRM
-%attr(755,root,root) %{_libdir}/%{name}/libwidevinecdm.so
+%{_libdir}/%{name}/libwidevinecdm.so
 
 # ffmpeg libs
 %if %{with ffmpegsumo}
-%attr(755,root,root) %{_libdir}/%{name}/libffmpegsumo.so
+%{_libdir}/%{name}/libffmpegsumo.so
 %endif
 
-%attr(755,root,root) %{_libdir}/%{name}/libvk_swiftshader.so
+%{_libdir}/%{name}/libvk_swiftshader.so
 %{_libdir}/%{name}/vk_swiftshader_icd.json
 
 %{_libdir}/%{name}/WidevineCdm
